@@ -1,0 +1,228 @@
+﻿
+@{
+    ViewBag.Title = "Dashboard";
+}
+<link href="~/dist/CustomStyleSheet.css" rel="stylesheet" />
+
+<div class=" card card-success">
+    <div class=" "@*style="background-color:#8AAD13;"*@>
+        <div class="content-wrapper" style="background-color:white !important" @*style="background-image: url('/Content/img/crop_bg.jpg');"*@>
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                       
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-left">
+                                <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
+                            </ol>
+                        </div>
+                        @*<div class="col-sm-6">
+                            <h1 class="m-0 text-dark">Dashboard</h1>
+                        </div>*@
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card  "style="background-color:#2DDA4F!important">
+                            <a href="/Smart/Home/DashboardDetails">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+                                                <i class="fa fa-drivers-license-o fa-3x"style="color:white!important"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase" style="color:white!important">Attendance</h6>
+                                            <h1 class="display-4"style="color:white!important">40/100</h1>
+                                        </div>
+                                    </div>
+                                   
+                                    
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card bg-success text-white ">
+                            <a href="/Smart/DashboardActivity/ActivityDetails">
+                                <div class="card-body bg-info-gradient ">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+                                                <i class="fa fa-calendar fa-3x"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase">Activities</h6>
+                                            <h1 class="display-4">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card bg-success text-white ">
+                            <a href="/Smart/DashboardActivity/CropDetails">
+                                <div class="card-body bg-success-gradient ">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+
+                                                <i class="fa fa-tree fa-3x"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase">Crop</h6>
+                                            <h1 class="display-4">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card "style="background-color:#FCA338!important">
+                            <a href="/Smart/Home/DashboardDetails">
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+                                                <i class="fa fa-registered fa-3x" style="color:white!important"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase" style="color:white!important">Products</h6>
+                                            <h1 class="display-4" style="color:white!important">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card bg-success text-white ">
+                            <a href="/Smart/Home/DashboardDetails">
+                                <div class="card-body bg-info "style="background-color:#F71923!important">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+
+                                                <i class="fa fa-question-circle-o fa-3x"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase">Problems</h6>
+                                            <h1 class="display-4">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card bg-success text-white ">
+                            <a href="/Smart/Home/DashboardDetails">
+                                <div class="card-body  "style="background-color:#D776F1!important">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+
+                                                <i class="fa fa-balance-scale fa-3x"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase">Anylsis</h6>
+                                            <h1 class="display-4">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card bg-success text-white ">
+                            <a href="/Smart/Home/DashboardDetails">
+                                <div class="card-body  "style="background-color:#76D9F1!important">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+                                                <i class="fa fa-calculator fa-3x"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase">Visit Counter</h6>
+                                            <h1 class="display-4">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    
+                    <div class="col-xl-4 col-sm-4 py-2">
+                        <div class="card bg-success text-white ">
+                            <a href="/Smart/Home/DashboardDetails">
+                                <div class="card-body bg-warning-gradient">
+                                    <div class="row">
+                                        <div class="col-md-5">
+                                            <span>
+
+                                                <i class="fa fa-calendar-check-o fa-3x"style="color:white!important"></i>
+                                                @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
+                                            </span>
+                                        </div>
+                                        <div class="col-md-7">
+                                            <h6 class="text-uppercase"style="color:white!important">Reports</h6>
+                                            <h1 class="display-4"style="color:white!important">40/100</h1>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>

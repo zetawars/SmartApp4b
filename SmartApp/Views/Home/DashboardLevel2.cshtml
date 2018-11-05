@@ -1,0 +1,242 @@
+﻿
+
+@{
+    ViewBag.Title = "DashboardLevel2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string path = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+}
+
+<div class=" card card-success" id="menucontainer">
+    <div class="content-wrapper" style="background-color:white !important">
+        <div class=" card-body">
+
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+
+                        <div class="col-sm-12">
+                            <ol class="breadcrumb float-sm-left">
+                                <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardDetails","Home")">Dashboard</a></li>
+                                <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel2","Home")"></a>Region </li>
+
+
+                            </ol>
+                        </div>
+                        @*<div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Dashboard</h1>
+                            </div>*@
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box " style="background-color:#3CC7F7">
+                            <div class="info-box-content">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important"class="info-box-text">BLUE -1</span>
+                                    <span style="color:black!important"class="info-box-number"> 90/110</span>
+                                    @*<img src="~/Images/blue1.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:right;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </div>
+
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box"style="background-color:#F5D58B">
+
+                            <span class="info-box-content ">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important" class="info-box-text">BLUE -2</span>
+                                    <span style="color:black!important" class="info-box-number">41/100</span>
+                                    @*<img src="~/Images/blue2.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7> </a>
+                                </span>
+                            </span>
+
+                         
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box "style="background-color:#F5B28B">
+
+                            <span class="info-box-content ">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important" class="info-box-text">BLUE -3</span>
+                                    <span style="color:black!important"  class="info-box-number">76/90</span>
+                                    @*<img src="~/Images/bl3.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                           
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        
+                        <div class="info-box "style="background-color:#A0F58B">
+
+                            <span class="info-box-content ">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important" class="info-box-text">White-1</span>
+                                    <span style="color:black!important" class="info-box-number">29/50</span>
+                                    @*<img src="~/Images/whte1.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                    
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>
+                <div style="height:20px;">
+
+                </div>
+                <div class=" row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box "style="background-color:#F27F91">
+
+                            <span class="info-box-content ">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important"class="info-box-text">White-2</span>
+                                    <span style="color:black!important"class="info-box-number">76/90</span>
+                                    @*<img src="~/Images/whte2.png" width="80" height="80" />*@
+                                </a>
+
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                          
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box "style="background-color:#D6B2EE">
+
+                            <span class="info-box-content ">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important"class="info-box-text">Green-1</span>
+                                    <span style="color:black!important"class="info-box-number">29/50</span>
+                                    @*<img src="~/Images/green1.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                     
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box "style="background-color:#F9AD6F">
+
+                            <span class="info-box-content">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important" class="info-box-text">Green-2</span>
+                                    <span style="color:black!important" class="info-box-number">90/110</span>
+                                    @*<img src="~/Images/green2.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                            
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box "style="background-color:#F5B7B1">
+
+                            <span class="info-box-content">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important"class="info-box-text">Green-3</span>
+                                    <span style="color:black!important"class="info-box-number">90/110</span>
+                                    @*<img src="~/Images/green3.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+                </div>
+
+                <div class=" row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box "style="background-color:#C2E2F7">
+
+                            <span class="info-box-content">
+                                <a href="/Home/DashboardLevel3">
+                                    <span style="color:black!important"class="info-box-text">Centrel</span>
+                                    <span style="color:black!important"class="info-box-number">76/90</span>
+                                    @*<img src="~/Images/centrel.png" width="80" height="80" />*@
+                                </a>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails">
+                                        <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                                    </a>
+                                </span>
+                            </span>
+
+                        
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
+
+

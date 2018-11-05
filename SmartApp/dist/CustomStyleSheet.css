@@ -1,0 +1,39 @@
+﻿.clrbox1data {
+    background-color: #DBE5F1;
+    color: black;
+    
+}
+
+.clrbox2data {
+    background-color: #EAF1DD;
+    color: black;
+}
+.clr-box3-data {
+    background-color: #F2DDDC;
+    color: black;
+}
+
+.clr-box1-head {
+    background-color: #4F81BD;
+    color: white;
+}
+.clr-box2-head {
+    background-color: #9BBB59;
+    color: white;
+}
+.clr-box3-head {
+    background-color: #C0504D;
+    color: white;
+}
+.clr-box1-total {
+    background-color: #B8CCE4;
+    color: black;
+}
+.clr-box2-total {
+    background-color: #D7E4BC;
+    color: black;
+}
+.clr-box3-total {
+    background-color: #E6B9B8;
+    color: black;
+}

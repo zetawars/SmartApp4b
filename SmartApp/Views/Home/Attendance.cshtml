@@ -1,0 +1,441 @@
+﻿@using Newtonsoft.Json
+@using SmartApp.Models.DBModels
+@model SmartApp.Models.ViewModels.AttendanceViewModel
+@{
+    ViewBag.Title = "Attendance";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    List<CreditDebit> CreditDebit = ViewBag.CreditDebit as List<CreditDebit>;
+
+    if (CreditDebit == null)
+    {
+        CreditDebit = new List<SmartApp.Models.DBModels.CreditDebit>();
+    }
+}
+
+<style>
+    .form-group .select2-container {
+        position: relative;
+        z-index: 2;
+        float: left;
+        width: 100%;
+        height: 100%;
+        margin-bottom: 0;
+        display: table;
+        table-layout: fixed;
+    }
+</style>
+
+
+
+
+<div class="content-wrapper">
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-6">
+                    <h1 class="m-0 text-dark">Attendance</h1>
+                </div><!-- /.col -->
+                <div class="col-sm-6">
+                    <ol class="breadcrumb float-sm-right">
+                        <li class="breadcrumb-item"><a href="#">Home</a></li>
+                        <li class="breadcrumb-item active">Attendance</li>
+                    </ol>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div>
+    </div>
+
+    <section class="content">
+
+        <div id="Filter">
+            <form id="AttendanceForm" method="post" action="@Url.Action("Attendance","Home")">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                                Filters
+                            </a>
+                        </h4>
+                    </div>
+                    <div id="collapseOne" class="panel-collapse in collapse show" style="">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3">
+
+                                    <div class="form-group">
+                                        <label class="control-label">Company</label>
+                                        <select2 :options="Companies" multiple @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value="SelectedCompanies"></select2>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Region</label>
+
+                                    <select2 :options="Regions" multiple @@input="RegionChange($event);" ref="RegionList" name="SelectedRegions" v-bind:value="SelectedRegions"></select2>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Zone</label>
+                                    <select2 :options="Zones" multiple @*@@input="ZoneChange($event);"*@ name="SelectedZones" v-bind:value="SelectedZones"></select2>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Territory</label>
+                                    <select2 :options="Territories" multiple @*@@input="TerritoryChange($event);"*@ name="SelectedTerritories" v-bind:value="SelectedTerritories"></select2>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control" id="Search" name="SearchBox" v-model="SearchBox" placeholder="Search" />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <input type="text" class="form-control datepicker" id="DateFrom" name="DateFrom" autocomplete="off" v-model="DateFrom" placeholder="DateFrom" />
+                                </div>
+                                <div class="col-md-4">
+                                    @*<datepicker :value.sync="DateTo"></datepicker>*@
+                                    <input type="text" class="form-control datepicker" id="DateTo" name="DateTo"  autocomplete="off"  v-model="DateTo" placeholder="DateTo" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-primary pull-right" type="submit">Filter</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <div class="card-header d-flex p-0">
+                <h3 class="card-title p-3">
+                    <i class="fa fa-pie-chart mr-1"></i>
+                    Sales
+                </h3>
+                @*<ul class="nav nav-pills ml-auto p-2">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                        </li>
+                    </ul>*@
+            </div>
+            <div class="card-body">
+                @ViewBag.WhereClause
+
+                <div class="tab-content p-0">
+
+                    <table id="example-advanced" class="table table-bordered">
+                        <caption>
+                            <a href="#" onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand all</a>
+                            <a href="#" onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse all</a>
+                        </caption>
+                        <thead>
+                            <tr class="level0">
+                                <th>Company Name</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            @{
+                                var companyList = CreditDebit.GroupBy(x => x.Compabb).Select(x => new
+                                {
+                                    CompanyName = x.Key,
+                                    Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                    Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                }).ToList();
+                                int companyCount = 1;
+
+                            }
+
+                            @foreach (var comp in companyList)
+                            {
+
+                                <tr data-tt-id='@companyCount' class="level1">
+                                    <td>@comp.CompanyName</td>
+                                    <td style="text-align:right">@comp.Debit</td>
+                                    <td style="text-align:right">@comp.Credit</td>
+                                </tr>
+
+                                var RegionList = CreditDebit.Where(x => x.Compabb == comp.CompanyName).ToList().GroupBy(x => x.Regionname).Select(x => new
+                                {
+                                    RegionName = x.Key,
+                                    Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                    Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                }).ToList();
+                                int regionCount = 1;
+
+                                foreach (var reg in RegionList)
+                                {
+                                    <tr data-tt-id='@companyCount-@regionCount' data-tt-parent-id='@companyCount' class="level2">
+                                        <td>@reg.RegionName</td>
+                                        <td style="text-align:right">@reg.Debit</td>
+                                        <td style="text-align:right">@reg.Credit</td>
+                                    </tr>
+
+                                    var ZoneList = CreditDebit.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName).ToList().GroupBy(x => x.ZoneName).Select(x => new
+                                    {
+                                        ZoneName = x.Key,
+                                        Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                        Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                    }).ToList();
+                                    int zoneCount = 1;
+
+                                    foreach (var zone in ZoneList)
+                                    {
+                                        <tr data-tt-id='@companyCount-@regionCount-@zoneCount' data-tt-parent-id='@companyCount-@regionCount' class="level3">
+                                            <td>@zone.ZoneName</td>
+                                            <td style="text-align:right">@zone.Debit</td>
+                                            <td style="text-align:right">@zone.Credit</td>
+                                        </tr>
+
+                                        var TerritoryList = CreditDebit.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName && x.ZoneName == zone.ZoneName).ToList().GroupBy(x => x.TerritoryName).Select(x => new
+                                        {
+                                            TerritoryName = x.Key,
+                                            Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                            Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                        }).ToList();
+                                        int territoryCount = 1;
+
+
+
+                                        foreach (var territory in TerritoryList)
+                                        {
+                                            <tr data-tt-id='@companyCount-@regionCount-@zoneCount-@territoryCount' data-tt-parent-id='@companyCount-@regionCount-@zoneCount' class="level4">
+                                                <td>@territory.TerritoryName</td>
+                                                <td style="text-align:right">@territory.Debit</td>
+                                                <td style="text-align:right">@territory.Credit</td>
+                                            </tr>
+
+
+                                            var PartyList = CreditDebit.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName && x.ZoneName == zone.ZoneName && x.TerritoryName == territory.TerritoryName).ToList().GroupBy(x => x.PartyName).Select(x => new
+                                            {
+                                                PartyName = x.Key,
+                                                Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                                Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                            }).ToList();
+                                            int PartyCount = 1;
+
+                                            foreach (var party in PartyList)
+                                            {
+                                                <tr data-tt-id='@companyCount-@regionCount-@zoneCount-@territoryCount-@PartyCount' data-tt-parent-id='@companyCount-@regionCount-@zoneCount-@territoryCount' class="level5">
+                                                    <td>@party.PartyName</td>
+                                                    <td style="text-align:right">@party.Debit</td>
+                                                    <td style="text-align:right">@party.Credit</td>
+                                                </tr>
+
+
+                                                PartyCount++;
+                                            }
+
+                                            territoryCount++;
+                                        }
+
+                                        zoneCount++;
+                                    }
+
+
+                                    regionCount++;
+                                }
+
+
+                                companyCount++;
+                            }
+
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+@section Scripts{
+    <script>
+
+
+        $("#example-advanced").treetable({ expandable: true });
+        // Highlight selected row
+        $("#example-advanced tbody").on("mousedown", "tr", function () {
+            $(".selected").not(this).removeClass("selected");
+            $(this).toggleClass("selected");
+        });
+        // Drag & Drop Example Code
+        $("#example-advanced .file, #example-advanced .folder").draggable({
+            helper: "clone",
+            opacity: .75,
+            refreshPositions: true, // Performance?
+            revert: "invalid",
+            revertDuration: 300,
+            scroll: true
+        });
+        $("#example-advanced .folder").each(function () {
+            $(this).parents("#example-advanced tr").droppable({
+                accept: ".file, .folder",
+                drop: function (e, ui) {
+                    var droppedEl = ui.draggable.parents("tr");
+                    $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+                },
+                hoverClass: "accept",
+                over: function (e, ui) {
+                    var droppedEl = ui.draggable.parents("tr");
+                    if (this != droppedEl[0] && !$(this).is(".expanded")) {
+                        $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
+                    }
+                }
+            });
+        });
+
+        $("form#reveal").submit(function () {
+            var nodeId = $("#revealNodeId").val()
+
+            try {
+                $("#example-advanced").treetable("reveal", nodeId);
+            }
+            catch (error) {
+                alert(error.message);
+            }
+
+            return false;
+        });
+
+
+
+
+
+
+    //   var datepicker = Vue.component('datepicker', {
+    //        template: `
+    //<div class="input-group date" v-el:inputgroup>
+    //    <input type="text" class="form-control" v-model="value">
+    //    <span class="input-group-addon">
+    //        <i class="glyphicon glyphicon-calendar"></i>
+    //    </span>
+    //</div>`,
+    //        props: {
+    //            value: '2015-01-01'
+    //        },
+    //        data: function () {
+    //            return {};
+    //        },
+    //        ready: function () {
+    //            $(this.$els.inputgroup).datepicker({
+    //                format: 'yyyy/mm/dd',
+    //                autoclose: true
+    //            });
+    //        }
+    //    });
+
+
+
+        var Select2 = Vue.component('select2', {
+            props: ['options', 'value'],
+            mounted() {
+                var vm = this;
+                console.log("from mounted:" + this.value);
+                $(this.$el)
+                    // init select2
+                    .select2({ data: this.options })
+                    .val(this.value)
+                    .trigger('change')
+                    // emit event on change.
+                    .on('change', function () {
+                        vm.$emit('input', $(this).val());
+                    });
+            },
+
+            watch: {
+                value: function (value) {
+                    if ([...value].sort().join(",") !== [...$(this.$el).val()].sort().join(","))
+                        $(this.$el).val(value).trigger('change');
+                },
+                //value: function (value) {
+                //    // update value
+                //    console.log("from Value Updated : " +   value);
+                //    //$(this.$el).select2('val', value).trigger("change");
+                //    $(this.$el).val(value).trigger('change');
+                //},
+                options(newOpts) {
+                    console.log(this);
+                    //$(this.$el).empty().select2({ data: options })
+                    $(this.$el).empty().select2({
+                        data: newOpts
+                    })
+                },
+            },
+            template: '<select class="form-control"></select>'
+        })
+
+            var element = new Vue({
+                el: "#Filter",
+                data: {
+                    Companies: @Html.Raw(Json.Encode(Model.Companies.Select(x=>new { id = x.Compcode, text = x.Compabb }).ToList())),
+                    SelectedCompanies: @Html.Raw(Json.Encode(Model.SelectedCompanies)),
+                    Regions: @Html.Raw(Json.Encode(Model.Regions.Select(x => new { id = x.ID, text = x.Name }).ToList())),
+                    SelectedRegions : @Html.Raw(Json.Encode(Model.SelectedRegions)),
+                    Zones: @Html.Raw(Json.Encode(Model.Zones.Select(x => new { id = x.ID, text = x.Name }).ToList())),
+                    SelectedZones: @Html.Raw(Json.Encode(Model.SelectedZones)),
+                    Territories: @Html.Raw(Json.Encode(Model.Territories.Select(x => new { id = x.ID, text = x.Name }).ToList())),
+                    SelectedTerritories: @Html.Raw(Json.Encode(Model.SelectedTerritories)),
+                    SearchBox: @Html.Raw(Json.Encode(Model.SearchBox)),
+                    DateFrom: '@Html.Raw(Model.DateFrom != null ?  ((DateTime)Model.DateFrom).ToString("yyyy-MM-dd") : "")',
+                    DateTo: '@Html.Raw(Model.DateTo != null ? ((DateTime)Model.DateTo).ToString("yyyy-MM-dd") : "")',
+                },
+                mounted() {
+                    var elements = $(this.$el).find(".datepicker").each(function () {
+                        $(this).datepicker({
+                            format: 'yyyy-mm-dd',
+                        });
+                    });
+                },
+                components: {
+                    select2: Select2,
+                    //datepicker : datepicker
+                },
+                methods: {
+                    CompanyChange($event) {
+                        var vm = this;
+                        vm.SelectedCompanies = $event;
+                        console.log($event);
+                        if (vm.SelectedCompanies.length != 0) {
+                            $.post("/Home/CompanyChange", { Companies: vm.SelectedCompanies }, function (resp) {
+                                console.log(resp);
+                                vm.Regions = resp.RegionDropdown;
+                                vm.Zones = resp.ZoneDropdown;
+                                vm.Territories = resp.TerritoryDropdown;
+                            });
+                        }
+                    },
+                    RegionChange($event) {
+                        var vm = this;
+                        vm.SelectedRegions = $event;
+                        console.log($event);
+                        if (vm.SelectedRegions.length != 0) {
+                            $.post("/Home/RegionChange", { Companies: vm.SelectedCompanies, Regions: vm.SelectedRegions }, function (resp) {
+                                console.log(resp);
+
+                                vm.Zones = resp.ZoneDropdown;
+                                vm.Territories = resp.TerritoryDropdown;
+                            });
+                        }
+                    },
+                    ZoneChange() {
+                        var vm = this;
+                        vm.SelectedZones = $event;
+                        console.log($event);
+                        if (vm.SelectedZones.length != 0) {
+                            $.post("/Home/ZoneChange", { Companies: vm.SelectedCompanies, Regions: vm.SelectedRegions, Zones : vm.SelectedZones }, function (resp) {
+                                vm.Territories = resp.TerritoryDropdown;
+                            });
+                        }
+                    },
+                }
+            });
+
+
+    </script>
+}

@@ -1,0 +1,163 @@
+﻿@using SmartApp.Models.DBModels;
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var k = ViewBag.bagRoles;
+    var objMenu = ViewBag.bagMenus;
+    var bagMenusSelected = ViewBag.bagMenusSelected;
+    var selectedObj = ViewBag.bagSelected;
+    // var selObjMenu = ViewBag.bagMenuSelected;
+    // List<DashboardRoles> objMenu =(List<DashboardRoles>)ViewBag.bagMenus;
+
+
+}
+
+
+
+<div class="content-wrapper">
+
+    
+    <div class="row">
+        <section class="col-lg-12 connectedSortable">
+            <div class="card card-success">
+                <div class="card-header d-flex p-0">
+                    <div class="row" style="width:100%">
+                        <div class="col-md-8">
+                            <h3 class="card-title p-3">
+                                <i class="fa fa-pie-chart mr-1"></i>
+                                User Group
+                            </h3>
+                        </div>
+                        <div class="col-sm-4">
+                            <ol class="breadcrumb float-sm-right"style="background-color:#28a745!important">
+                                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                                <li class="breadcrumb-item active" style="color:#F5F7FB!important">Dashboard v2</li>
+                            </ol>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="tab-content p-0">
+                   @using (Html.BeginForm("Index", "UserGroup", FormMethod.Post, new { encType = "multipart/form-data", name = "myform" })) {
+                        <div class="row">
+                            <div class="col-md-4">
+                                <select id="VID" name="VID" class="form-control"required>
+                                    <option value="">--Select--</option>
+                                    @if (k != null)
+                                    {
+                                        foreach (var item in k)
+                                        {
+                                            <option value="@item.VID">@item.VName</option>
+                                        }   
+                                    }
+                                  
+                                </select>
+                            </div>
+                            <div class="col-md-2">
+                                <input type="button" id="saveData" name="saveData" class="btn btn-success" value="Save" />
+
+                            </div>
+                        </div>
+                        <div style="height:20px;">
+
+                        </div>
+                        <table id="example-advanced" class="table table-bordered">
+                            <tbody>
+                                @if (objMenu != null)
+                                {
+                                    foreach (var item in objMenu)
+                                    {
+                                        <tr>
+                                            <td>
+                                               
+                                                
+                                              
+                                                    <input type="checkbox" id="IsSelected" name="IsSelected[]" class="MenuID" value="@item.VID" />
+                                                
+                                            </td>
+                                            <td>
+                                                @item.VName
+                                            </td>
+
+                                        </tr>
+
+
+                                    }
+                                }
+                               
+                            </tbody>
+                        </table>
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+    
+</div>
+<script src="~/Scripts/jquery-1.10.2.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script>
+            $('#VID').change(function () {
+                $(".MenuID").each(function () {
+                    debugger;
+                    var value = $(this).val();
+                    $(":checkbox[value=" + value + "]").prop("checked", false);
+
+                });
+                var VID = $("#VID").val();
+                $.post("/../UserGroup/SelectedUserMenu", { GID: VID }, function (data) {
+                   // console.log(data);
+                   
+                  //  $(".MenuID").each(function () {
+                       // debugger;
+                     //   var value = $(this).val();
+                        
+                        $(data).each(function (index, v) {
+                            if (v !=0) {
+                                $(":checkbox[value=" + v + "]").prop("checked", true);
+                            }
+                            //else {
+                            //    $(value).prop("checked", false);
+
+                            //}
+                        });
+
+
+                    //});
+                });
+               
+            });
+       
+                
+</script>
+  
+<script>
+$(function () {  //or your could use  $(document).ready(function () {
+    $('#saveData').click(function () {
+                debugger;
+                var STRMS = [];
+                var str = [];
+                var VID = $("#VID").val();
+                $('input:checked').each(function () {
+                    STRMS.push($(this).attr("value"));
+                });
+                //$("input:checkbox:not(:checked)").each(function () {
+                //    str.push($(this).attr("value"));
+                //});
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("Index", "UserGroup")',
+                    dataType: "html",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify({ IsSelected: STRMS, GID: VID}),
+                    success:
+                        function (data) { }
+
+                });
+        });
+
+    });
+</script>
+
+

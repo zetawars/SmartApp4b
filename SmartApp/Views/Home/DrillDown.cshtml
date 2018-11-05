@@ -1,0 +1,250 @@
+﻿@using SmartApp.Models.DBModels
+@model List<CreditDebit>
+@{
+    ViewBag.Title = "Index";
+}
+
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+                    <div class="row mb-2">
+
+                        <div class="col-sm-12">
+                            <ol class="breadcrumb float-sm-left">
+                                <li class="breadcrumb-item"><a href="/">Home</a></li>
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardDetails","Home")">Dashboard</a></li>
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">Region </a></li>
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3","Home")">Zone </a></li>
+                                <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4","Home")">Territory </a></li>
+                                <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel5","Home")"></a>Party </li>
+
+                            </ol>
+                        </div>
+                        @*<div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Dashboard</h1>
+                            </div>*@
+                    </div>
+
+                </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
+    <!-- Main content -->
+    <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+
+                    <section class="col-lg-12 connectedSortable">
+
+                        <div class="card">
+                            <div class="card-header d-flex p-0">
+                                <h3 class="card-title p-3">
+                                    <i class="fa fa-pie-chart mr-1"></i>
+                                    Sales
+                                </h3>
+                                @*<ul class="nav nav-pills ml-auto p-2">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#revenue-chart" data-toggle="tab">Area</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
+                                    </li>
+                                </ul>*@
+                            </div>
+                            <div class="card-body">
+                                <div class="tab-content p-0">
+
+                                    <table id="example-advanced" class="table table-bordered">
+                                        <caption>
+                                            <a href="#" onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand all</a>
+                                            <a href="#" onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse all</a>
+                                        </caption>
+                                        <thead>
+                                            <tr class="level0">
+                                                <th>Company Name</th>
+                                                <th>Debit</th>
+                                                <th>Credit</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+                                            @{
+                                                var companyList = Model.GroupBy(x => x.Compabb).Select(x => new
+                                                {
+                                                    CompanyName = x.Key,
+                                                    Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                                    Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                                }).ToList();
+                                                int companyCount = 1;
+
+                                            }
+
+                                            @foreach (var comp in companyList)
+                                            {
+                                              
+                                                <tr data-tt-id='@companyCount' class="level1">
+                                                    <td>@comp.CompanyName</td>
+                                                    <td style="text-align:right">@comp.Debit</td>
+                                                    <td style="text-align:right">@comp.Credit</td>
+                                                </tr>
+
+                                                var RegionList = Model.Where(x => x.Compabb == comp.CompanyName).ToList().GroupBy(x => x.Regionname).Select(x => new
+                                                {
+                                                    RegionName = x.Key,
+                                                    Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                                    Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                                }).ToList();
+                                                int regionCount = 1;
+
+                                                foreach (var reg in RegionList)
+                                                {
+                                                    <tr data-tt-id='@companyCount-@regionCount' data-tt-parent-id='@companyCount' class="level2">
+                                                        <td>@reg.RegionName</td>
+                                                        <td style="text-align:right">@reg.Debit</td>
+                                                        <td style="text-align:right">@reg.Credit</td>
+                                                    </tr>
+
+                                                    var ZoneList = Model.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName).ToList().GroupBy(x => x.ZoneName).Select(x => new
+                                                    {
+                                                        ZoneName = x.Key,
+                                                        Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                                        Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                                    }).ToList();
+                                                    int zoneCount = 1;
+
+                                                    foreach (var zone in ZoneList)
+                                                    {
+                                                        <tr data-tt-id='@companyCount-@regionCount-@zoneCount' data-tt-parent-id='@companyCount-@regionCount' class="level3">
+                                                            <td>@zone.ZoneName</td>
+                                                            <td style="text-align:right">@zone.Debit</td>
+                                                            <td style="text-align:right">@zone.Credit</td>
+                                                        </tr>
+
+                                                        var TerritoryList = Model.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName && x.ZoneName == zone.ZoneName).ToList().GroupBy(x => x.TerritoryName).Select(x => new
+                                                        {
+                                                            TerritoryName = x.Key,
+                                                            Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                                            Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                                        }).ToList();
+                                                        int territoryCount = 1;
+
+
+
+                                                        foreach (var territory in TerritoryList)
+                                                        {
+                                                           <tr data-tt-id='@companyCount-@regionCount-@zoneCount-@territoryCount' data-tt-parent-id='@companyCount-@regionCount-@zoneCount' class="level4">
+                                                               <td>@territory.TerritoryName</td>
+                                                               <td style="text-align:right">@territory.Debit</td>
+                                                               <td style="text-align:right">@territory.Credit</td>
+                                                           </tr>
+
+
+                                                            var PartyList = Model.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName && x.ZoneName == zone.ZoneName && x.TerritoryName == territory.TerritoryName).ToList().GroupBy(x => x.PartyName).Select(x => new
+                                                            {
+                                                                PartyName = x.Key,
+                                                                Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
+                                                                Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
+                                                            }).ToList();
+                                                            int PartyCount = 1;
+
+                                                            foreach (var party in PartyList)
+                                                            {
+                                                                <tr data-tt-id='@companyCount-@regionCount-@zoneCount-@territoryCount-@PartyCount' data-tt-parent-id='@companyCount-@regionCount-@zoneCount-@territoryCount' class="level5">
+                                                                    <td>@party.PartyName</td>
+                                                                    <td style="text-align:right">@party.Debit</td>
+                                                                    <td style="text-align:right">@party.Credit</td>
+                                                                </tr>
+
+                                
+                                                                PartyCount++;
+                                                            }
+
+                                                            territoryCount++;
+                                                        }
+
+                                                        zoneCount++;
+                                                    }
+
+
+                                                    regionCount++;
+                                                }
+
+
+                                                companyCount++;
+                                            }
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </section>
+
+                </div>
+            </div>
+        </section>
+    <section class="content">
+
+
+
+    </section>
+
+    <!-- /.content -->
+</div>
+
+@section Scripts{
+<script>
+
+
+    $("#example-advanced").treetable({ expandable: true });
+    // Highlight selected row
+    $("#example-advanced tbody").on("mousedown", "tr", function () {
+        $(".selected").not(this).removeClass("selected");
+        $(this).toggleClass("selected");
+    });
+    // Drag & Drop Example Code
+    $("#example-advanced .file, #example-advanced .folder").draggable({
+        helper: "clone",
+        opacity: .75,
+        refreshPositions: true, // Performance?
+        revert: "invalid",
+        revertDuration: 300,
+        scroll: true
+    });
+    $("#example-advanced .folder").each(function () {
+        $(this).parents("#example-advanced tr").droppable({
+            accept: ".file, .folder",
+            drop: function (e, ui) {
+                var droppedEl = ui.draggable.parents("tr");
+                $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
+            },
+            hoverClass: "accept",
+            over: function (e, ui) {
+                var droppedEl = ui.draggable.parents("tr");
+                if (this != droppedEl[0] && !$(this).is(".expanded")) {
+                    $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
+                }
+            }
+        });
+    });
+
+    $("form#reveal").submit(function () {
+        var nodeId = $("#revealNodeId").val()
+
+        try {
+            $("#example-advanced").treetable("reveal", nodeId);
+        }
+        catch (error) {
+            alert(error.message);
+        }
+
+        return false;
+    });
+
+
+
+</script>
+
+
+}

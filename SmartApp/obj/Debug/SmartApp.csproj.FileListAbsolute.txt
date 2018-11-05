@@ -1,0 +1,129 @@
+c:\users\abdul rouf\documents\visual studio 2017\Projects\SmartApp\SmartApp\bin\SmartApp.dll.config
+c:\users\abdul rouf\documents\visual studio 2017\Projects\SmartApp\SmartApp\bin\SmartApp.dll
+c:\users\abdul rouf\documents\visual studio 2017\Projects\SmartApp\SmartApp\bin\SmartApp.pdb
+c:\users\abdul rouf\documents\visual studio 2017\Projects\SmartApp\SmartApp\obj\Debug\SmartApp.csproj.CoreCompileInputs.cache
+c:\users\abdul rouf\documents\visual studio 2017\Projects\SmartApp\SmartApp\obj\Debug\SmartApp.dll
+c:\users\abdul rouf\documents\visual studio 2017\Projects\SmartApp\SmartApp\obj\Debug\SmartApp.pdb
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.Owin.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.Owin.Security.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Newtonsoft.Json.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Owin.dll
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.Owin.xml
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Microsoft.Owin.Security.xml
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\bin\Newtonsoft.Json.xml
+C:\Users\Abdul Rouf\Documents\Visual Studio 2017\Projects\SmartApp\SmartApp\obj\Debug\SmartApp.csprojResolveAssemblyReference.cache
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\SmartApp.dll.config
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\SmartApp.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\SmartApp.pdb
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Dapper.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Dapper.Extension.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.Owin.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.Owin.Security.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Newtonsoft.Json.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Owin.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Dapper.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.Owin.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Microsoft.Owin.Security.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Newtonsoft.Json.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\obj\Debug\SmartApp.csproj.CoreCompileInputs.cache
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\obj\Debug\SmartApp.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\obj\Debug\SmartApp.pdb
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\SmartApp.dll.config
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\SmartApp.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\SmartApp.pdb
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Antlr3.Runtime.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Dapper.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Dapper.Extension.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\dotless.Core.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.Owin.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.Owin.Security.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Mvc.RazorTools.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Mvc.RazorTools.FontAwesome.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Newtonsoft.Json.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Owin.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\System.Web.Optimization.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\System.Web.Optimization.Less.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\WebActivatorEx.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\WebGrease.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Antlr3.Runtime.pdb
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Dapper.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.Owin.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Microsoft.Owin.Security.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Mvc.RazorTools.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Mvc.RazorTools.FontAwesome.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\Newtonsoft.Json.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\System.Web.Optimization.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\System.Web.Optimization.Less.pdb
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\bin\System.Web.Optimization.Less.xml
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\obj\Debug\SmartApp.dll
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\obj\Debug\SmartApp.pdb
+C:\Users\DELL\Desktop\SmartApp8\SmartApp\SmartApp\obj\Debug\SmartApp.csprojResolveAssemblyReference.cache
+D:\SC\SmartApp\SmartApp\bin\SmartApp.dll.config
+D:\SC\SmartApp\SmartApp\bin\SmartApp.dll
+D:\SC\SmartApp\SmartApp\bin\SmartApp.pdb
+D:\SC\SmartApp\SmartApp\bin\Antlr3.Runtime.dll
+D:\SC\SmartApp\SmartApp\bin\Dapper.dll
+D:\SC\SmartApp\SmartApp\bin\Dapper.Extension.dll
+D:\SC\SmartApp\SmartApp\bin\dotless.Core.dll
+D:\SC\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.dll
+D:\SC\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+D:\SC\SmartApp\SmartApp\bin\Microsoft.Owin.dll
+D:\SC\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.dll
+D:\SC\SmartApp\SmartApp\bin\Microsoft.Owin.Security.dll
+D:\SC\SmartApp\SmartApp\bin\Mvc.RazorTools.dll
+D:\SC\SmartApp\SmartApp\bin\Mvc.RazorTools.FontAwesome.dll
+D:\SC\SmartApp\SmartApp\bin\Newtonsoft.Json.dll
+D:\SC\SmartApp\SmartApp\bin\Owin.dll
+D:\SC\SmartApp\SmartApp\bin\System.Web.Optimization.dll
+D:\SC\SmartApp\SmartApp\bin\System.Web.Optimization.Less.dll
+D:\SC\SmartApp\SmartApp\bin\WebActivatorEx.dll
+D:\SC\SmartApp\SmartApp\bin\WebGrease.dll
+D:\SC\SmartApp\SmartApp\bin\Antlr3.Runtime.pdb
+D:\SC\SmartApp\SmartApp\bin\Dapper.xml
+D:\SC\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.Core.xml
+D:\SC\SmartApp\SmartApp\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+D:\SC\SmartApp\SmartApp\bin\Microsoft.Owin.xml
+D:\SC\SmartApp\SmartApp\bin\Microsoft.Owin.Host.SystemWeb.xml
+D:\SC\SmartApp\SmartApp\bin\Microsoft.Owin.Security.xml
+D:\SC\SmartApp\SmartApp\bin\Mvc.RazorTools.xml
+D:\SC\SmartApp\SmartApp\bin\Mvc.RazorTools.FontAwesome.xml
+D:\SC\SmartApp\SmartApp\bin\Newtonsoft.Json.xml
+D:\SC\SmartApp\SmartApp\bin\System.Web.Optimization.xml
+D:\SC\SmartApp\SmartApp\bin\System.Web.Optimization.Less.pdb
+D:\SC\SmartApp\SmartApp\bin\System.Web.Optimization.Less.xml
+D:\SC\SmartApp\SmartApp\obj\Debug\SmartApp.csprojResolveAssemblyReference.cache
+D:\SC\SmartApp\SmartApp\obj\Debug\SmartApp.dll
+D:\SC\SmartApp\SmartApp\obj\Debug\SmartApp.pdb
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Antlr3.Runtime.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\dotless.Core.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Mvc.RazorTools.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Mvc.RazorTools.FontAwesome.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\System.Web.Optimization.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\System.Web.Optimization.Less.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\WebActivatorEx.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\WebGrease.dll
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Antlr3.Runtime.pdb
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Mvc.RazorTools.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\Mvc.RazorTools.FontAwesome.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\System.Web.Optimization.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\System.Web.Optimization.Less.pdb
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\bin\System.Web.Optimization.Less.xml
+C:\Users\Abdul Rouf\Desktop\SmartApp\SmartApp\obj\Debug\SmartApp.csprojResolveAssemblyReference.cache

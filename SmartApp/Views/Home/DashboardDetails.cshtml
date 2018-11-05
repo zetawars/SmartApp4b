@@ -1,0 +1,181 @@
+﻿
+@{
+    ViewBag.Title = "DashboardDetails";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class=" " id="menucontainer" >
+      <div class="content-wrapper"@*style="background-color:white !important"*@style="background-image: url('/Content/img/bg_atten.jpg');">
+    <div class=" card-body">
+      
+            <div class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+
+                        <div class="col-sm-6">
+                            <ol class="breadcrumb float-sm-left">
+                                <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
+                                <li class="breadcrumb-item active"><a href="@Url.Action("DashboardDetails","Home")"></a>Dashboard</li>
+                                
+                               
+                            </ol>
+                        </div>
+                        @*<div class="col-sm-6">
+                                <h1 class="m-0 text-dark">Dashboard</h1>
+                            </div>*@
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box"style="background-color:white!important">
+                            <span class="info-box-icon">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <img src="~/Images/Smart TARZAN.png" style="width:60px;height:60px;" />
+
+                              </a>  
+                                </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">AGRI SERVICES</span>
+                                <span class="info-box-number"> 90/110</span>
+                                <span style="float:right!important">
+                                    <a href="/Smart/Home/Attendance" style="color:black!important">Details
+                                        
+                                    </a>
+                                </span>
+                            </div>
+                          
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box">
+                            
+                            <span class="info-box-icon">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <img src="~/Images/Smart BIO.png" style="width:60px;height:60px;" />
+                                </a>
+                            </span>
+                            <div class="info-box-content">
+                                <span class="info-box-text">BIOLOGIC AG</span>
+                                <span class="info-box-number">41/100</span>
+                                <span style="float:right!important">
+                                    <a href="/Smart/Home/Attendance"><h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7> </a>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    @*<div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-lightgray">
+                            <span class="info-box-icon bg-yellow">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <i class="fa fa-user fa-2x"></i>
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">ORANGE</span>
+                                <span class="info-box-number">76/90</span>
+                                <span>
+                                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-lightgray">
+                            <span class="info-box-icon bg-danger">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <i class="fa fa-list fa-2x"></i>
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">CHEM</span>
+                                <span class="info-box-number">29/50</span>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>*@
+                </div>
+               @*<div style="height:20px;">
+
+               </div>
+                <div class=" row">
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-lightgray">
+                            <span class="info-box-icon bg-primary">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <i class="fa fa-address-book fa-2x"></i>
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">INT</span>
+                                <span class="info-box-number">76/90</span>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails"><h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-lightgray">
+                            <span class="info-box-icon bg-info">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <i class="fa fa-user fa-2x"></i>
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">SEED FARMS</span>
+                                <span class="info-box-number">29/50</span>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="info-box bg-lightgray">
+                            <span class="info-box-icon bg-danger">
+                                <a href="/Home/DashboardLevel2" title="Show Company Details">
+                                    <i class="fa fa-tag fa-2x"></i>
+                                </a>
+                            </span>
+
+                            <div class="info-box-content">
+                                <span class="info-box-text">SEED BULK</span>
+                                <span class="info-box-number">90/110</span>
+                                <span style="float:right!important">
+                                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+                                </span>
+                            </div>
+                            <!-- /.info-box-content -->
+                        </div>
+                        <!-- /.info-box -->
+                    </div>
+                </div>*@
+
+            </div>
+        </div>
+
+
+
+    </div>
+</div>
