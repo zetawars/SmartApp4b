@@ -1,46 +1,64 @@
 ﻿
 @{
     ViewBag.Title = "Dashboard";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string total = TempData["TotalCount"].ToString();
+    string present = TempData["PresentCount"].ToString();
+    string prcnt=TempData["Percent"].ToString();
 }
 <link href="~/dist/CustomStyleSheet.css" rel="stylesheet" />
 
-<div class=" card card-success">
-    <div class=" "@*style="background-color:#8AAD13;"*@>
-        <div class="content-wrapper" style="background-color:white !important" @*style="background-image: url('/Content/img/crop_bg.jpg');"*@>
+<div class=" card card-success" id="result">
+
+    <div class=" " @*style="background-color:#8AAD13;"*@>
+        <div class="content-wrapper" style="background-color:white !important"
+             @*style="background-image: url('/Content/img/crop_bg.jpg');"*@>
             <div class="content-header">
                 <div class="container-fluid">
                     <div class="row mb-2">
-                       
+
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-left">
-                                <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Home</a></li>
                             </ol>
                         </div>
-                        @*<div class="col-sm-6">
-                            <h1 class="m-0 text-dark">Dashboard</h1>
-                        </div>*@
+                        @*<div class="col-sm-2 float-sm-right">
+                                <p class="info-box-text">
+                                    Switch Company
+                                </p>
+                            </div>*@
+
                     </div>
 
                 </div>
                 <div class="row">
                     <div class="col-xl-4 col-sm-4 py-2">
-                        <div class="card  "style="background-color:#2DDA4F!important">
-                            <a href="/Smart/Home/DashboardDetails">
+                        <div class="card  " style="background-color:#2DDA4F!important">
+                            @*@Url.Action("DashboardLevel2", "Home")*@
+                            <a href="@Url.Action("DashboardLevel2", "Home")" id="regionDetails">
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
-                                                <i class="fa fa-drivers-license-o fa-3x"style="color:white!important"></i>
+                                                <i class="fa fa-drivers-license-o fa-3x" style="color:white!important"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase" style="color:white!important">Attendance</h6>
-                                            <h1 class="display-4"style="color:white!important">40/100</h1>
+                                            @if (present.ToString() != null && total.ToString() != null && prcnt != null)
+                                            {
+                                                <h1 class="display-4" style="color:white!important">@present/@total</h1>
+                                            }
+                                        </div>
+
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">@prcnt%</small>
+
                                         </div>
                                     </div>
-                                   
-                                    
+
+
                                 </div>
                             </a>
 
@@ -48,18 +66,22 @@
                     </div>
                     <div class="col-xl-4 col-sm-4 py-2">
                         <div class="card bg-success text-white ">
-                            <a href="/Smart/DashboardActivity/ActivityDetails">
+                            <a href="@Url.Action("ActivityDetails","DashboardActivity")">
                                 <div class="card-body bg-info-gradient ">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
                                                 <i class="fa fa-calendar fa-3x"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase">Activities</h6>
                                             <h1 class="display-4">40/100</h1>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
                                         </div>
                                     </div>
 
@@ -71,19 +93,24 @@
                     </div>
                     <div class="col-xl-4 col-sm-4 py-2">
                         <div class="card bg-success text-white ">
-                            <a href="/Smart/DashboardActivity/CropDetails">
+                            <a href="@Url.Action("CropDetails","DashboardActivity")">
+
                                 <div class="card-body bg-success-gradient ">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
 
                                                 <i class="fa fa-tree fa-3x"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase">Crop</h6>
                                             <h1 class="display-4">40/100</h1>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
                                         </div>
                                     </div>
 
@@ -97,19 +124,26 @@
                 <div class="row">
 
                     <div class="col-xl-4 col-sm-4 py-2">
-                        <div class="card "style="background-color:#FCA338!important">
-                            <a href="/Smart/Home/DashboardDetails">
+                        <div class="card " style="background-color:#FCA338!important">
+                            <a href="@Url.Action("DashboardDetails","Home")">
+
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
                                                 <i class="fa fa-registered fa-3x" style="color:white!important"></i>
+
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase" style="color:white!important">Products</h6>
                                             <h1 class="display-4" style="color:white!important">40/100</h1>
+
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
                                         </div>
                                     </div>
 
@@ -121,19 +155,23 @@
                     </div>
                     <div class="col-xl-4 col-sm-4 py-2">
                         <div class="card bg-success text-white ">
-                            <a href="/Smart/Home/DashboardDetails">
-                                <div class="card-body bg-info "style="background-color:#F71923!important">
+                            <a href="#">
+                                <div class="card-body bg-info " style="background-color:#F71923!important">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
 
                                                 <i class="fa fa-question-circle-o fa-3x"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase">Problems</h6>
                                             <h1 class="display-4">40/100</h1>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
                                         </div>
                                     </div>
 
@@ -145,19 +183,23 @@
                     </div>
                     <div class="col-xl-4 col-sm-4 py-2">
                         <div class="card bg-success text-white ">
-                            <a href="/Smart/Home/DashboardDetails">
-                                <div class="card-body  "style="background-color:#D776F1!important">
+                            <a href="#">
+                                <div class="card-body  " style="background-color:#D776F1!important">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
 
                                                 <i class="fa fa-balance-scale fa-3x"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase">Anylsis</h6>
                                             <h1 class="display-4">40/100</h1>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
                                         </div>
                                     </div>
 
@@ -171,19 +213,23 @@
                 <div class="row">
                     <div class="col-xl-4 col-sm-4 py-2">
                         <div class="card bg-success text-white ">
-                            <a href="/Smart/Home/DashboardDetails">
-                                <div class="card-body  "style="background-color:#76D9F1!important">
+                            <a href="/Home/DashboardDetails">
+                                <div class="card-body  " style="background-color:#76D9F1!important">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
                                                 <i class="fa fa-calculator fa-3x"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
+                                        <div class="col-md-6">
                                             <h6 class="text-uppercase">Visit Counter</h6>
                                             <h1 class="display-4">40/100</h1>
                                         </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
+                                        </div>
                                     </div>
 
 
@@ -192,22 +238,26 @@
 
                         </div>
                     </div>
-                    
+
                     <div class="col-xl-4 col-sm-4 py-2">
                         <div class="card bg-success text-white ">
-                            <a href="/Smart/Home/DashboardDetails">
+                            <a href="#">
                                 <div class="card-body bg-warning-gradient">
                                     <div class="row">
-                                        <div class="col-md-5">
+                                        <div class="col-md-4">
                                             <span>
 
-                                                <i class="fa fa-calendar-check-o fa-3x"style="color:white!important"></i>
+                                                <i class="fa fa-calendar-check-o fa-3x" style="color:white!important"></i>
                                                 @*<img src="~/Images/Attendance.jpg" style="width:60px;height:60px;" />*@
                                             </span>
                                         </div>
-                                        <div class="col-md-7">
-                                            <h6 class="text-uppercase"style="color:white!important">Reports</h6>
-                                            <h1 class="display-4"style="color:white!important">40/100</h1>
+                                        <div class="col-md-6">
+                                            <h6 class="text-uppercase" style="color:white!important">Reports</h6>
+                                            <h1 class="display-4" style="color:white!important">40/100</h1>
+                                        </div>
+                                        <div class="col-md-2">
+                                            <small style="color:white!important;font-size:30px;float:right!important">40%</small>
+
                                         </div>
                                     </div>
 
@@ -217,12 +267,70 @@
 
                         </div>
                     </div>
-                    
+
                 </div>
             </div>
         </div>
-
-
-
     </div>
 </div>
+@section Scripts{
+    <script>
+        $("#CompanyName").change(function () {
+            var name = $("#CompanyName").val();
+           // alert(name);
+
+        });
+        
+            @*$('#regionDetails').click(function () {
+                debugger;
+                var name = $("#CompanyName").val();
+             
+                $.ajax({
+                    url: '@Url.Action("DashboardLevel2", "Home")',
+                    data: { CompanyName: name },
+                    type: 'POST',
+                    success: function (data) {
+                        console.log(data)
+                        $("#result").html(data);
+                        //alert(data);
+                        
+                        //DO Whatever on success
+                    }
+                });*@
+            
+        //});
+   
+
+        @*$("#regionDetails").click(function () {
+            debugger;
+            var name = $("#CompanyName").val();
+            //var jsonText = JSON.stringify({ tagName: getPTag(), start: getPStart(), end: getPEnd() });
+            $.ajax({
+
+                url: '@Url.Action("DashboardLevel2", "Home")',
+                type:'POST',
+                dataType: 'JSON',
+                data: {CompanyName: name},
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                    debugger;
+
+                    alert(data.toString());
+                },
+                error: function () {
+                    //alert("Tag or Times aren't formatted right");
+                }
+            });
+        });*@
+        @*$("#regionDetails").click(function () {
+           // var name = $("#CompanyName").val();
+            var baseUrl = '@Url.Action("DashboardLevel2", "Home")';
+            location.href = baseUrl + '/' + $("#CompanyName").val();
+            //$.get("/Home/DashboardLevel2", { CompanyName: name }, function (data) {
+
+
+            //});*@
+
+       
+</script>
+    }

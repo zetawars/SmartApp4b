@@ -26,6 +26,8 @@ namespace System
         public string GroupCode { get; set; }
         public int IsHO { get; set; }
         public string EmpLevel { get; set; }
+        public DateTime DateTo { get; set; }
+        public DateTime DateFrom { get; set; }
         public DateTime ServerDateTime { get; set; }
 
 
@@ -51,7 +53,8 @@ namespace System
                 this.IsHO = user.IsHO;
                 this.EmpLevel = user.Emp_level;
                 this.ServerDateTime = user.ServerDateTime;
-
+                this.DateFrom = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-") + "01");
+                this.DateTo = DateTime.Now;
             }
         }
 

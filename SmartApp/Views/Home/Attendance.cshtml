@@ -1,16 +1,19 @@
 ﻿@using Newtonsoft.Json
 @using SmartApp.Models.DBModels
+@using SmartApp.Models.ViewModels;
 @model SmartApp.Models.ViewModels.AttendanceViewModel
 @{
     ViewBag.Title = "Attendance";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    int counter = 1;
+    SessionUser user = new SessionUser();
+    string myStr = "";
+    //List<CreditDebit> CreditDebit = ViewBag.CreditDebit as List<CreditDebit>;
 
-    List<CreditDebit> CreditDebit = ViewBag.CreditDebit as List<CreditDebit>;
-
-    if (CreditDebit == null)
-    {
-        CreditDebit = new List<SmartApp.Models.DBModels.CreditDebit>();
-    }
+    //if (CreditDebit == null)
+    //{
+    //    CreditDebit = new List<SmartApp.Models.DBModels.CreditDebit>();
+    //}
 }
 
 <style>
@@ -24,6 +27,8 @@
         display: table;
         table-layout: fixed;
     }
+
+ 
 </style>
 
 
@@ -33,11 +38,11 @@
     <div class="content-header">
         <div class="container-fluid">
             <div class="row mb-2">
+                @*<div class="col-sm-6">
+                        <h1 class="m-0 text-dark">Attendance</h1>
+                    </div>*@<!-- /.col -->
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Attendance</h1>
-                </div><!-- /.col -->
-                <div class="col-sm-6">
-                    <ol class="breadcrumb float-sm-right">
+                    <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="#">Home</a></li>
                         <li class="breadcrumb-item active">Attendance</li>
                     </ol>
@@ -46,17 +51,17 @@
         </div>
     </div>
 
-    <section class="content">
+    <section class="content small">
 
-        <div id="Filter">
+        <div id="Filter" >
             <form id="AttendanceForm" method="post" action="@Url.Action("Attendance","Home")">
                 <div class="card card-primary">
                     <div class="card-header">
-                        <h4 class="card-title">
+                        <h5 class="card-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
                                 Filters
                             </a>
-                        </h4>
+                        </h5>
                     </div>
                     <div id="collapseOne" class="panel-collapse in collapse show" style="">
                         <div class="card-body">
@@ -64,13 +69,24 @@
                                 <div class="col-md-3">
 
                                     <div class="form-group">
-                                        <label class="control-label">Company</label>
-                                        <select2 :options="Companies" multiple @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value="SelectedCompanies"></select2>
+                                        <label class="control-label sm">Company</label>
+                                       @if (user.CompanyName != null)
+                                       {
+
+                                        <select2 :options="@user.CompanyName"  @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value=""></select2>
+
+                                       }
+                                        <select2 :options="Companies"  @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value="SelectedCompanies"></select2>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="control-label">Region</label>
+                                    @if (user.RegionName != null)
+                                    {
 
+                                        <select :options="@user.RegionName"  name="SelectedCompanies" ></select>
+
+                                    }
                                     <select2 :options="Regions" multiple @@input="RegionChange($event);" ref="RegionList" name="SelectedRegions" v-bind:value="SelectedRegions"></select2>
 
                                 </div>
@@ -95,7 +111,7 @@
                                 </div>
                                 <div class="col-md-4">
                                     @*<datepicker :value.sync="DateTo"></datepicker>*@
-                                    <input type="text" class="form-control datepicker" id="DateTo" name="DateTo"  autocomplete="off"  v-model="DateTo" placeholder="DateTo" />
+                                    <input type="text" class="form-control datepicker" id="DateTo" name="DateTo" autocomplete="off" v-model="DateTo" placeholder="DateTo" />
                                 </div>
                             </div>
                         </div>
@@ -108,7 +124,7 @@
         </div>
 
         <div class="card">
-            <div class="card-header d-flex p-0">
+            @*<div class="card-header d-flex p-0">
                 <h3 class="card-title p-3">
                     <i class="fa fa-pie-chart mr-1"></i>
                     Sales
@@ -121,132 +137,58 @@
                             <a class="nav-link" href="#sales-chart" data-toggle="tab">Donut</a>
                         </li>
                     </ul>*@
-            </div>
+            @*</div>*@
             <div class="card-body">
-                @ViewBag.WhereClause
+            
+                <div class="table table-responsive ">
 
-                <div class="tab-content p-0">
-
-                    <table id="example-advanced" class="table table-bordered">
-                        <caption>
-                            <a href="#" onclick="jQuery('#example-advanced').treetable('expandAll'); return false;">Expand all</a>
-                            <a href="#" onclick="jQuery('#example-advanced').treetable('collapseAll'); return false;">Collapse all</a>
-                        </caption>
+                    <table  class="table table-striped DataTable" style="width:100% !important">
                         <thead>
-                            <tr class="level0">
-                                <th>Company Name</th>
-                                <th>Debit</th>
-                                <th>Credit</th>
-                            </tr>
-                        </thead>
+                                <tr >
+                                    <th>SrlNum</th>
+                                    <th>Company</th>
+                                    <th>Region</th>
+                                    <th>Zone</th>
+                                    <th>Territory</th>
+                                    <th>UserName</th>
+                                    <th>Address</th>
+                                    <th>Record Date</th>
+                                    <th>Record Time</th>
+                                    <th>Activity/Status</th>
+                                    <th>Remarks</th>
+
+                                </tr>
+                            </thead>
+
                         <tbody>
 
-                            @{
-                                var companyList = CreditDebit.GroupBy(x => x.Compabb).Select(x => new
-                                {
-                                    CompanyName = x.Key,
-                                    Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
-                                    Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
-                                }).ToList();
-                                int companyCount = 1;
-
-                            }
-
-                            @foreach (var comp in companyList)
+                            @if (ViewBag.ListDetails != null)
                             {
 
-                                <tr data-tt-id='@companyCount' class="level1">
-                                    <td>@comp.CompanyName</td>
-                                    <td style="text-align:right">@comp.Debit</td>
-                                    <td style="text-align:right">@comp.Credit</td>
-                                </tr>
-
-                                var RegionList = CreditDebit.Where(x => x.Compabb == comp.CompanyName).ToList().GroupBy(x => x.Regionname).Select(x => new
+                                foreach (var comp in ViewBag.ListDetails)
                                 {
-                                    RegionName = x.Key,
-                                    Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
-                                    Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
-                                }).ToList();
-                                int regionCount = 1;
-
-                                foreach (var reg in RegionList)
-                                {
-                                    <tr data-tt-id='@companyCount-@regionCount' data-tt-parent-id='@companyCount' class="level2">
-                                        <td>@reg.RegionName</td>
-                                        <td style="text-align:right">@reg.Debit</td>
-                                        <td style="text-align:right">@reg.Credit</td>
+                                    
+                                    <tr>
+                                        
+                                        <td>@comp.SrlNo</td>
+                                        <td>@comp.Company</td>
+                                        <td>@comp.Region</td>
+                                        <td>@comp.Zone</td>
+                                        <td>@comp.Territory</td>
+                                        <td>@comp.UserName</td>
+                                        <td>@comp.Village</td>
+                                        <td>@DateTime.Parse(comp.VDate.ToString()).ToString("yyyy-MM-dd")</td>
+                                        <td>@DateTime.Parse(comp.ServerTime.ToString()).ToString("hh:mm tt")</td>
+                                        <td style="background-color:@(comp.color)!important">@comp.VType</td>
+                                        <td>@comp.Remarks</td>
+                                   
                                     </tr>
-
-                                    var ZoneList = CreditDebit.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName).ToList().GroupBy(x => x.ZoneName).Select(x => new
-                                    {
-                                        ZoneName = x.Key,
-                                        Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
-                                        Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
-                                    }).ToList();
-                                    int zoneCount = 1;
-
-                                    foreach (var zone in ZoneList)
-                                    {
-                                        <tr data-tt-id='@companyCount-@regionCount-@zoneCount' data-tt-parent-id='@companyCount-@regionCount' class="level3">
-                                            <td>@zone.ZoneName</td>
-                                            <td style="text-align:right">@zone.Debit</td>
-                                            <td style="text-align:right">@zone.Credit</td>
-                                        </tr>
-
-                                        var TerritoryList = CreditDebit.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName && x.ZoneName == zone.ZoneName).ToList().GroupBy(x => x.TerritoryName).Select(x => new
-                                        {
-                                            TerritoryName = x.Key,
-                                            Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
-                                            Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
-                                        }).ToList();
-                                        int territoryCount = 1;
-
-
-
-                                        foreach (var territory in TerritoryList)
-                                        {
-                                            <tr data-tt-id='@companyCount-@regionCount-@zoneCount-@territoryCount' data-tt-parent-id='@companyCount-@regionCount-@zoneCount' class="level4">
-                                                <td>@territory.TerritoryName</td>
-                                                <td style="text-align:right">@territory.Debit</td>
-                                                <td style="text-align:right">@territory.Credit</td>
-                                            </tr>
-
-
-                                            var PartyList = CreditDebit.Where(x => x.Compabb == comp.CompanyName && x.Regionname == reg.RegionName && x.ZoneName == zone.ZoneName && x.TerritoryName == territory.TerritoryName).ToList().GroupBy(x => x.PartyName).Select(x => new
-                                            {
-                                                PartyName = x.Key,
-                                                Debit = Math.Round(x.Sum(y => double.Parse(y.Debit))),
-                                                Credit = Math.Round(x.Sum(y => double.Parse(y.Credit)))
-                                            }).ToList();
-                                            int PartyCount = 1;
-
-                                            foreach (var party in PartyList)
-                                            {
-                                                <tr data-tt-id='@companyCount-@regionCount-@zoneCount-@territoryCount-@PartyCount' data-tt-parent-id='@companyCount-@regionCount-@zoneCount-@territoryCount' class="level5">
-                                                    <td>@party.PartyName</td>
-                                                    <td style="text-align:right">@party.Debit</td>
-                                                    <td style="text-align:right">@party.Credit</td>
-                                                </tr>
-
-
-                                                PartyCount++;
-                                            }
-
-                                            territoryCount++;
-                                        }
-
-                                        zoneCount++;
-                                    }
-
-
-                                    regionCount++;
+                                    
                                 }
-
-
-                                companyCount++;
+                         
                             }
-
                         </tbody>
+                    
                     </table>
                 </div>
             </div>
@@ -256,79 +198,6 @@
 
 @section Scripts{
     <script>
-
-
-        $("#example-advanced").treetable({ expandable: true });
-        // Highlight selected row
-        $("#example-advanced tbody").on("mousedown", "tr", function () {
-            $(".selected").not(this).removeClass("selected");
-            $(this).toggleClass("selected");
-        });
-        // Drag & Drop Example Code
-        $("#example-advanced .file, #example-advanced .folder").draggable({
-            helper: "clone",
-            opacity: .75,
-            refreshPositions: true, // Performance?
-            revert: "invalid",
-            revertDuration: 300,
-            scroll: true
-        });
-        $("#example-advanced .folder").each(function () {
-            $(this).parents("#example-advanced tr").droppable({
-                accept: ".file, .folder",
-                drop: function (e, ui) {
-                    var droppedEl = ui.draggable.parents("tr");
-                    $("#example-advanced").treetable("move", droppedEl.data("ttId"), $(this).data("ttId"));
-                },
-                hoverClass: "accept",
-                over: function (e, ui) {
-                    var droppedEl = ui.draggable.parents("tr");
-                    if (this != droppedEl[0] && !$(this).is(".expanded")) {
-                        $("#example-advanced").treetable("expandNode", $(this).data("ttId"));
-                    }
-                }
-            });
-        });
-
-        $("form#reveal").submit(function () {
-            var nodeId = $("#revealNodeId").val()
-
-            try {
-                $("#example-advanced").treetable("reveal", nodeId);
-            }
-            catch (error) {
-                alert(error.message);
-            }
-
-            return false;
-        });
-
-
-
-
-
-
-    //   var datepicker = Vue.component('datepicker', {
-    //        template: `
-    //<div class="input-group date" v-el:inputgroup>
-    //    <input type="text" class="form-control" v-model="value">
-    //    <span class="input-group-addon">
-    //        <i class="glyphicon glyphicon-calendar"></i>
-    //    </span>
-    //</div>`,
-    //        props: {
-    //            value: '2015-01-01'
-    //        },
-    //        data: function () {
-    //            return {};
-    //        },
-    //        ready: function () {
-    //            $(this.$els.inputgroup).datepicker({
-    //                format: 'yyyy/mm/dd',
-    //                autoclose: true
-    //            });
-    //        }
-    //    });
 
 
 
@@ -353,12 +222,6 @@
                     if ([...value].sort().join(",") !== [...$(this.$el).val()].sort().join(","))
                         $(this.$el).val(value).trigger('change');
                 },
-                //value: function (value) {
-                //    // update value
-                //    console.log("from Value Updated : " +   value);
-                //    //$(this.$el).select2('val', value).trigger("change");
-                //    $(this.$el).val(value).trigger('change');
-                //},
                 options(newOpts) {
                     console.log(this);
                     //$(this.$el).empty().select2({ data: options })
@@ -367,7 +230,7 @@
                     })
                 },
             },
-            template: '<select class="form-control"></select>'
+            template: '<select class="form-control form-control-sm"></select>'
         })
 
             var element = new Vue({

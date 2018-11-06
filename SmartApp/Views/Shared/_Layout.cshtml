@@ -1,6 +1,9 @@
-﻿@{ 
+﻿@using SmartApp.Models.ViewModels
+@{
 
     SessionUser user = Session["User"] as SessionUser;
+
+    List<Company> Companies = Session["Companies"] as List<Company>;
 }
 
 <!DOCTYPE html>
@@ -12,15 +15,16 @@
     <!-- Tell the browser to be responsive to screen width -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Font Awesome -->
-
-    <link href="~/plugins/datatables/jquery.dataTables.css" rel="stylesheet" />
-    <link href="~/plugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" />
     <link rel="stylesheet" href="@Url.Content("~/plugins/font-awesome/css/font-awesome.min.css")">
     <!-- Ionicons -->
-    <link rel="stylesheet" href="https//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link href="~/plugins/select2/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <!-- Theme style -->
-    <link href="~/plugins/select2/select2.css" rel="stylesheet" />
+
+    <link href="~/plugins/datatables/jquery.dataTables.css" rel="stylesheet" />
     <link rel="stylesheet" href="@Url.Content("~/dist/css/adminlte.min.css")">
+    @*<link href="~/plugins/datatables/dataTables.bootstrap4.css" rel="stylesheet" />*@
+
     <!-- iCheck -->
     <link rel="stylesheet" href="@Url.Content("~/plugins/iCheck/flat/blue.css")">
     <!-- Morris chart -->
@@ -36,19 +40,30 @@
     <!-- Google Font: Source Sans Pro -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
     <link href="@Url.Content("~/plugins/jquery-treetable/css/jquery.treetable.css")" rel="stylesheet" />
+
     <style>
         /*
-            HEX: #92a8d1
+                    HEX: #92a8d1
 
-HEX: #034f84
+        HEX: #034f84
 
-HEX: #f7cac9
+        HEX: #f7cac9
 
-HEX: #f7786b
+        HEX: #f7786b
 
-        */
+                */
 
-        
+        .btn1 {
+            border: none;
+            outline: none;
+            padding: 10px 16px;
+            background-color: #f1f1f1;
+            cursor: pointer;
+        }
+
+        /* Style the active class (and buttons on mouse-over) */
+      
+
         .level0 {
             background-color: #034f84 !important;
             color: white;
@@ -56,12 +71,12 @@ HEX: #f7786b
 
         .level2 {
             background-color: #92a8d1 !important;
-            color:white;
+            color: white;
         }
 
         .level1 {
             background-color: #034f84 !important;
-            color:white;
+            color: white;
         }
 
         .level3 {
@@ -72,135 +87,196 @@ HEX: #f7786b
             background-color: #f7786b !important;
         }
 
+        .dropdown-menu {
+            width: 400px;
+            margin-left: -220px;
+            padding: 10px;
+        }
+
+        .selected {
+            background-color:darkgreen;
+            color:white;
+        
+        }
     </style>
 
 </head>
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
         <!-- Navbar -->
-        <nav class="main-header navbar navbar-expand @*bg-white*@ navbar-light border-bottom" style="background-color:#d7d8d2!important">
+        <nav class="main-header navbar navbar-expand bg-white navbar-light border-bottom">
             <!-- Left navbar links -->
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#"><i class="fa fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
+                    <a href="index3.html" class="nav-link"></a>
                 </li>
                 @*<li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
-                </li>*@
+                        <a href="#" class="nav-link">Contact</a>
+                    </li>*@
             </ul>
             <!-- SEARCH FORM -->
             @*<form class="form-inline ml-3">
-                <div class="input-group input-group-sm">
-                    <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                    <div class="input-group-append">
-                        <button class="btn btn-navbar" type="submit">
-                            <i class="fa fa-search"></i>
-                        </button>
+                    <div class="input-group input-group-sm">
+                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
+                        <div class="input-group-append">
+                            <button class="btn btn-navbar" type="submit">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
                     </div>
-                </div>
-            </form>*@
+                </form>*@
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
-                <li class="nav-item dropdown">
-                    <div class="media">
-                        <img src="@Url.Content("~/dist/img/user1-128x128.jpg")" alt="User Avatar" class="img-size-32 mr-3 img-circle">
-                        <div class="media-body">
-                            <h3 class="dropdown-item-title">@user.UserName (@user.UserLogin)</h3>
-                            <h6 class="text-sm">@user.ZoneName @user.TerritoryName @user.RegionName</h6>
+                <li class="nav-item">
+                    <a href="#/" id="ShowProfile">
+                        <div class="media mr-3">
+                            <div class="media-body">
+                                <img src="" class="img-size-50 img-circle mr-3">
+                                <h3 class="dropdown-item-title">@user.UserName (@user.UserLogin)</h3>
+                            </div>
                         </div>
+                    </a>
+                    <div class="dropdown-menu" id="ProfileBox" style="margin-left:850px">
+
+                        <form action="@Url.Action("UpdateSession","Panel")" method="post">
+                            <input type="hidden" value="@Request.Url.ToString()" name="RedirectURL" />
+                            <div class="form-group">
+                                <label>Company</label>
+                                <select class="form-control" id="comp" name="CompanyID">
+                                    @foreach (var element in Companies)
+            {
+                        <option value="@element.Compcode" @(user.CompCode == element.Compcode ? "Selected" : "" )>@element.Compabb</option>
+}
+                                </select>
+                            </div>
+                            
+                                <div class="form-group"  :style="[BoxesVisible ? {'display': 'block'} : {'display': 'none'}]">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label>Date From</label>
+                                                <input type="text" class="form-control datepicker" name="DateFrom" v-model="DateFrom" />
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+
+                                                <label>Date To</label>
+                                                <input type="text" class="form-control datepicker" name="DateTo" v-model="DateTo" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <div>
+                                            <a href="#/" :class="[{ selected: (SelectedBtn  == 'Today') }, 'btn btn-default']" @@click="TodayClick()">Today</a>
+                                            <a href="#/" :class="[{ selected: (SelectedBtn  == 'Week') }, 'btn btn-default']" @@click="WeekClick()">Week</a>
+                                            <a href="#/" :class="[{ selected: (SelectedBtn  == 'Month') }, 'btn btn-default']" @@click="MonthClick()">Month</a>
+                                            <a href="#/" :class="[{ selected: (SelectedBtn  == 'Custom') }, 'btn btn-default']" @@click="CustomClick()">Custom</a>
+                                            <button class="btn btn-primary" type="submit"><i class="fa fa-filter"></i></button>
+                                        </div>
+                                    </div>
+
+                                </div>
+                        </form>
                     </div>
+                </li>
+
+                <li class="nav-item dropdown">
+
                     @*<a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fa fa-comments-o"></i>
-                        <span class="badge badge-danger navbar-badge">3</span>
-                    </a>*@
+                            <i class="fa fa-comments-o"></i>
+                            <span class="badge badge-danger navbar-badge">3</span>
+                        </a>*@
                     @*<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Brad Diesel
-                                        <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">Call me whenever you can...</p>
-                                    <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+                            <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="/dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            Brad Diesel
+                                            <span class="float-right text-sm text-danger"><i class="fa fa-star"></i></span>
+                                        </h3>
+                                        <p class="text-sm">Call me whenever you can...</p>
+                                        <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        John Pierce
-                                        <span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">I got your message bro</p>
-                                    <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="/dist/img/user8-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            John Pierce
+                                            <span class="float-right text-sm text-muted"><i class="fa fa-star"></i></span>
+                                        </h3>
+                                        <p class="text-sm">I got your message bro</p>
+                                        <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <!-- Message Start -->
-                            <div class="media">
-                                <img src="/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
-                                <div class="media-body">
-                                    <h3 class="dropdown-item-title">
-                                        Nora Silvester
-                                        <span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>
-                                    </h3>
-                                    <p class="text-sm">The subject goes here</p>
-                                    <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <!-- Message Start -->
+                                <div class="media">
+                                    <img src="/dist/img/user3-128x128.jpg" alt="User Avatar" class="img-size-50 img-circle mr-3">
+                                    <div class="media-body">
+                                        <h3 class="dropdown-item-title">
+                                            Nora Silvester
+                                            <span class="float-right text-sm text-warning"><i class="fa fa-star"></i></span>
+                                        </h3>
+                                        <p class="text-sm">The subject goes here</p>
+                                        <p class="text-sm text-muted"><i class="fa fa-clock-o mr-1"></i> 4 Hours Ago</p>
+                                    </div>
                                 </div>
-                            </div>
-                            <!-- Message End -->
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
-                    </div>*@
+                                <!-- Message End -->
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Messages</a>
+                        </div>*@
                 </li>
                 <!-- Notifications Dropdown Menu -->
                 @*<li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="fa fa-bell-o"></i>
-                        <span class="badge badge-warning navbar-badge">15</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header">15 Notifications</span>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fa fa-envelope mr-2"></i> 4 new messages
-                            <span class="float-right text-muted text-sm">3 mins</span>
+                        <a class="nav-link" data-toggle="dropdown" href="#">
+                            <i class="fa fa-bell-o"></i>
+                            <span class="badge badge-warning navbar-badge">15</span>
                         </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fa fa-users mr-2"></i> 8 friend requests
-                            <span class="float-right text-muted text-sm">12 hours</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item">
-                            <i class="fa fa-file mr-2"></i> 3 new reports
-                            <span class="float-right text-muted text-sm">2 days</span>
-                        </a>
-                        <div class="dropdown-divider"></div>
-                        <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
-                    </div>
-                </li>*@
+                        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
+                            <span class="dropdown-item dropdown-header">15 Notifications</span>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fa fa-envelope mr-2"></i> 4 new messages
+                                <span class="float-right text-muted text-sm">3 mins</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fa fa-users mr-2"></i> 8 friend requests
+                                <span class="float-right text-muted text-sm">12 hours</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item">
+                                <i class="fa fa-file mr-2"></i> 3 new reports
+                                <span class="float-right text-muted text-sm">2 days</span>
+                            </a>
+                            <div class="dropdown-divider"></div>
+                            <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+                        </div>
+                    </li>*@
                 @*<li class="nav-item">
-                    <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
-                        <i class="fa fa-th-large"></i>
-                    </a>
-                </li>*@
+                        <a class="nav-link" data-widget="control-sidebar" data-slide="true" href="#">
+                            <i class="fa fa-th-large"></i>
+                        </a>
+                    </li>*@
             </ul>
         </nav>
         <!-- /.navbar -->
@@ -208,7 +284,7 @@ HEX: #f7786b
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
             <a href="index3.html" class="brand-link">
-        
+
                 <img src="@Url.Content("~/Images/4b.png")" alt="FourBrothers" class="brand-image elevation-3"
                      style="opacity: .8">
                 <span class="brand-text font-weight-light">FourBrothers </span>
@@ -217,19 +293,19 @@ HEX: #f7786b
             <div class="sidebar">
                 <!-- Sidebar user panel (optional) -->
                 @*<div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                    <div class="image">
-                        <img src="@Url.Content("~/dist/img/user2-160x160.jpg")" class="img-circle elevation-2" alt="User Image">
-                    </div>
-                    <div class="info">
-                        <a href="#" class="d-block">@user.UserName</a>
-                        <span style="color:white;word-wrap:break-word !important;white-space:normal">@user.TerritoryName @user.ZoneName @user.RegionName</span>
-                    </div>
-                </div>*@
+                        <div class="image">
+                            <img src="@Url.Content("~/dist/img/user2-160x160.jpg")" class="img-circle elevation-2" alt="User Image">
+                        </div>
+                        <div class="info">
+                            <a href="#" class="d-block">@user.UserName</a>
+                            <span style="color:white;word-wrap:break-word !important;white-space:normal">@user.TerritoryName @user.ZoneName @user.RegionName</span>
+                        </div>
+                    </div>*@
                 <!-- Sidebar Menu -->
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-    with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item has-treeview">
                             <a href="@Url.Action("Dashboard", "Home")" class="nav-link">
                                 <i class="nav-icon fa fa-bar-chart-o"></i>
@@ -240,12 +316,6 @@ HEX: #f7786b
                             <a href="@Url.Action("Scoreboard", "Home")" class="nav-link">
                                 <i class="nav-icon fa fa-dashboard"></i>
                                 <p>Scoreboard</p>
-                            </a>
-                        </li>
-						 <li class="nav-item has-treeview">
-                            <a href="@Url.Action("Attendance", "Home")" class="nav-link">
-                                <i class="nav-icon fa fa-dashboard"></i>
-                                <p>Attendance</p>
                             </a>
                         </li>
                         <li class="nav-item has-treeview">
@@ -285,275 +355,273 @@ HEX: #f7786b
                                 <p>User Group</p>
                             </a>
                         </li>
-						
-						
 
                         @*<li class="nav-item">
-            <a href="/pages/widgets.html" class="nav-link">
-                <i class="nav-icon fa fa-th"></i>
-                <p>
-                    Widgets
-                    <span class="right badge badge-danger">New</span>
-                </p>
-            </a>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-pie-chart"></i>
-                <p>
-                    Charts
-                    <i class="right fa fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/charts/chartjs.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>ChartJS</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/charts/flot.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Flot</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/charts/inline.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Inline</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-tree"></i>
-                <p>
-                    UI Elements
-                    <i class="fa fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/UI/general.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>General</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/UI/icons.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Icons</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/UI/buttons.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Buttons</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/UI/sliders.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Sliders</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-edit"></i>
-                <p>
-                    Forms
-                    <i class="fa fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/forms/general.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>General Elements</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/forms/advanced.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Advanced Elements</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/forms/editors.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Editors</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-table"></i>
-                <p>
-                    Tables
-                    <i class="fa fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/tables/simple.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Simple Tables</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/tables/data.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Data Tables</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-header">EXAMPLES</li>
-        <li class="nav-item">
-            <a href="/pages/calendar.html" class="nav-link">
-                <i class="nav-icon fa fa-calendar"></i>
-                <p>
-                    Calendar
-                    <span class="badge badge-info right">2</span>
-                </p>
-            </a>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-envelope-o"></i>
-                <p>
-                    Mailbox
-                    <i class="fa fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/mailbox/mailbox.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Inbox</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/mailbox/compose.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Compose</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/mailbox/read-mail.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Read</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-book"></i>
-                <p>
-                    Pages
-                    <i class="fa fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/examples/invoice.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Invoice</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/examples/profile.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Profile</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/examples/login.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Login</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/examples/register.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Register</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/examples/lockscreen.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Lockscreen</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-item has-treeview">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-plus-square-o"></i>
-                <p>
-                    Extras
-                    <i class="fa fa-angle-left right"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="/pages/examples/404.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Error 404</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/examples/500.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Error 500</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="/pages/examples/blank.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Blank Page</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="starter.html" class="nav-link">
-                        <i class="fa fa-circle-o nav-icon"></i>
-                        <p>Starter Page</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <li class="nav-header">MISCELLANEOUS</li>
-        <li class="nav-item">
-            <a href="https://adminlte.io/docs" class="nav-link">
-                <i class="nav-icon fa fa-file"></i>
-                <p>Documentation</p>
-            </a>
-        </li>
-        <li class="nav-header">LABELS</li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-circle-o text-danger"></i>
-                <p class="text">Important</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-circle-o text-warning"></i>
-                <p>Warning</p>
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fa fa-circle-o text-info"></i>
-                <p>Informational</p>
-            </a>
-        </li>*@
+                                <a href="/pages/widgets.html" class="nav-link">
+                                    <i class="nav-icon fa fa-th"></i>
+                                    <p>
+                                        Widgets
+                                        <span class="right badge badge-danger">New</span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-pie-chart"></i>
+                                    <p>
+                                        Charts
+                                        <i class="right fa fa-angle-left"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/charts/chartjs.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>ChartJS</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/charts/flot.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Flot</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/charts/inline.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Inline</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-tree"></i>
+                                    <p>
+                                        UI Elements
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/UI/general.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>General</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/UI/icons.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Icons</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/UI/buttons.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Buttons</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/UI/sliders.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Sliders</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-edit"></i>
+                                    <p>
+                                        Forms
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/forms/general.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>General Elements</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/forms/advanced.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Advanced Elements</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/forms/editors.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Editors</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-table"></i>
+                                    <p>
+                                        Tables
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/tables/simple.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Simple Tables</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/tables/data.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Data Tables</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header">EXAMPLES</li>
+                            <li class="nav-item">
+                                <a href="/pages/calendar.html" class="nav-link">
+                                    <i class="nav-icon fa fa-calendar"></i>
+                                    <p>
+                                        Calendar
+                                        <span class="badge badge-info right">2</span>
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-envelope-o"></i>
+                                    <p>
+                                        Mailbox
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/mailbox/mailbox.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Inbox</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/mailbox/compose.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Compose</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/mailbox/read-mail.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Read</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-book"></i>
+                                    <p>
+                                        Pages
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/invoice.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Invoice</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/profile.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Profile</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/login.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Login</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/register.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Register</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/lockscreen.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Lockscreen</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-plus-square-o"></i>
+                                    <p>
+                                        Extras
+                                        <i class="fa fa-angle-left right"></i>
+                                    </p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/404.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Error 404</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/500.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Error 500</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="/pages/examples/blank.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Blank Page</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a href="starter.html" class="nav-link">
+                                            <i class="fa fa-circle-o nav-icon"></i>
+                                            <p>Starter Page</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li class="nav-header">MISCELLANEOUS</li>
+                            <li class="nav-item">
+                                <a href="https://adminlte.io/docs" class="nav-link">
+                                    <i class="nav-icon fa fa-file"></i>
+                                    <p>Documentation</p>
+                                </a>
+                            </li>
+                            <li class="nav-header">LABELS</li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-circle-o text-danger"></i>
+                                    <p class="text">Important</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-circle-o text-warning"></i>
+                                    <p>Warning</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fa fa-circle-o text-info"></i>
+                                    <p>Informational</p>
+                                </a>
+                            </li>*@
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
@@ -566,7 +634,7 @@ HEX: #f7786b
         <!-- /.content-wrapper -->
         <footer class="main-footer">
             @*<strong>Copyright &copy; 2014-2018 <a href="http://adminlte.io">4B</a>.</strong>
-            All rights reserved.*@
+                All rights reserved.*@
             <div class="float-right d-none d-sm-inline-block">
                 <b>Version</b> 1.0
             </div>
@@ -611,40 +679,167 @@ HEX: #f7786b
     <script src="@Url.Content("~/plugins/fastclick/fastclick.js")"></script>
     <!-- AdminLTE App -->
     <script src="@Url.Content("~/dist/js/adminlte.js")"></script>
+    <script src="~/plugins/datatables/jquery.dataTables.min.js"></script>
+
     <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
     @*<script src="@Url.Content("~/dist/js/pages/dashboard.js"></script>*@
     <!-- AdminLTE for demo purposes -->
-   @* <script type="text/javascript" charset="utf8" src="/DataTables/datatables.js"></script>*@
     @*<script src="@Url.Content("~/dist/js/demo.js"></script>*@
     <link href="@Url.Content("~/plugins/jquery-treetable/css/screen.css")" rel="stylesheet" />
     <link href="@Url.Content("~/plugins/jquery-treetable/css/jquery.treetable.theme.default.css")" rel="stylesheet" />
     <script src="@Url.Content("~/plugins/jquery-treetable/js/jquery.treetable.js")"></script>
     @*<script src="@Url.Content("~/plugins/linq.js-3/linq.min.js"></script>*@
-    <script src="~/plugins/datatables/jquery.dataTables.js"></script>
-    <script src="~/plugins/datatables/dataTables.bootstrap4.js"></script>
+    @*<script src="~/plugins/datatables/dataTables.bootstrap4.js"></script>*@
     <script src="@Url.Content("~/Scripts/vue.js")"></script>
-    
-    @*<script src="~/Scripts/jquery.linq-vsdoc.js"></script>
-    <script src="~/Scripts/jquery.linq.min.js"></script>*@
 
-   
-    <script src="~/plugins/select2/select2.full.min.js"></script>
+    @*<script src="~/Scripts/jquery.linq-vsdoc.js"></script>
+        <script src="~/Scripts/jquery.linq.min.js"></script>*@
+    <script src="~/Scripts/underscore.min.js"></script>
+
     <script src="@Url.Content("~/Scripts/linq.min.js")"></script>
 
     @*<script src="~/Scripts/linq.jquery.js"></script>
-    <script src="~/Scripts/linq-vsdoc.js"></script>*@
+        <script src="~/Scripts/linq-vsdoc.js"></script>*@
 
 
     @*<script src="~/Scripts/linq.rx.js"></script>*@
     @*<script src="/~/plugins/jquery-treetable/js/jquery.treetable.test.js"></script>*@
 
+
+    <script src="~/plugins/select2/select2.full.min.js"></script>
     <script>
+
+
+
+        var profilebox = new Vue({
+            el: "#ProfileBox",
+            data: {
+                DateFrom: "@user.DateFrom.ToString("yyyy-MM-dd")",
+                DateTo: "@user.DateTo.ToString("yyyy-MM-dd")",
+                BoxesVisible: false,
+                SelectedBtn: 'Custom',
+            },
+            mounted: function () {
+                if (this.DateFrom == this.GetMonthFirstDate() && this.DateTo == this.GetTodayDate()) {
+                    this.SelectedBtn = 'Month';
+                } else if (this.DateFrom == this.GetWeekDate() && this.DateTo == this.GetTodayDate()) {
+                    this.SelectedBtn = 'Week';
+                } else if (this.DateFrom == this.GetTodayDate() && this.DateTo == this.GetTodayDate()) {
+                    this.SelectedBtn = 'Today';
+                } else {
+                    this.SelectedBtn = 'Custom';
+                }
+
+                if (this.SelectedBtn == 'Custom') {
+                    this.BoxesVisible = true;
+                } else {
+                    this.BoxesVisible = false;
+                }
+
+            },
+            methods: {
+                GetMonthFirstDate() {
+       
+                    var date = new Date();
+                    var d = new Date(date.getFullYear(), date.getMonth(), 1);
+                    var From = new moment(d);
+                    return From.format('YYYY-MM-DD');
+
+                },
+                GetTodayDate() {
+     
+                    var momentObj = new moment(new Date());
+                    var momentString = momentObj.format('YYYY-MM-DD');
+                    return momentString;
+                },
+                GetWeekDate() {
+   
+                    var d = new Date();
+                    d.setDate(d.getDate() - 7);
+                    var From = new moment(d);
+                    return From.format('YYYY-MM-DD');
+                },
+                TodayClick() {
+                    this.BoxesVisible = false;
+                    this.SelectedBtn = 'Today';
+                    var date = this.GetTodayDate();
+                    this.DateFrom = date;
+                    this.DateTo = date;
+                },
+                WeekClick() {
+
+                    this.SelectedBtn = 'Week';
+                    this.BoxesVisible = false;
+                    this.DateFrom = this.GetWeekDate();
+                    this.DateTo = this.GetTodayDate();
+                },
+                MonthClick() {
+
+                    this.SelectedBtn = 'Month';
+                    this.BoxesVisible = false;
+                    this.DateFrom = this.GetMonthFirstDate();
+                    this.DateTo = this.GetTodayDate();
+                },
+                CustomClick() {
+
+                    this.SelectedBtn = 'Custom';
+                    this.DateFrom = this.GetTodayDate();
+                    this.DateTo = this.GetTodayDate();
+                    this.BoxesVisible = true;
+                },
+
+
+            }
+
+        });
+
+        $("#ShowProfile").click(function () {
+            $("#ProfileBox").toggleClass("show");
+        });
+
         $("ul.nav li a").each(function () {
             var a = this;
             if ($(a).attr("href") == window.location.pathname) {
                 $(a).addClass("active");
             }
         });
+
+        $(".select2").select2();
+
+        $(".DataTable").DataTable({
+            "autoWidth": false
+        });
+
+        $(".dropdown-menu").unbind("click");
+
+        //$("#button").click(function () {
+        //    debugger;
+
+        //    $("#button1").removeClass(".active2");
+        //    $("#button").removeClass(".active1");
+
+        //    $(this).addClass(".active1");
+        //});
+        //$(document).on('change', '#comp', function (e) {
+        //    console.log(this.options[e.target.selectedIndex].text);
+        //});
+        //$(document).ready(function () {
+        //    var name = $("#comp").val();
+
+        //    //  alert(name);
+        //    $('#comp').on('change', function (e) {
+        //        debugger;
+        //        // var name = $("#comp").val();
+        //        var cmp;
+
+        //        cmp = e.target.value;
+
+        //        alert(cmp);
+        //    })
+
+
+        //});
+
 
     </script>
 

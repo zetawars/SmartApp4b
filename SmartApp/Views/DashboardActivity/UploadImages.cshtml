@@ -1,0 +1,45 @@
+﻿@{
+    ViewBag.Title = "UploadImages";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+
+<div class="content-wrapper"style="background-color:white!important">
+    <div class="container-fluid">
+        <div id="tabs">
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="#tabs-1">Tab Header 1</a></li>
+                <li>Tab Header 2</li>
+                
+            </ul>
+
+        </div>
+    </div>
+    
+    <div class="container container-fluid">
+     
+        <div class="row">
+            @foreach (var image in Model.Images)
+            {
+
+                <div class="flex-lg-column" style="width:20%!important;text-align:center!important;">
+
+                    <a href="#">
+                        <img src="@Url.Content(image)" width="120" height="120" title="" />
+                        <p style="">
+                            @Path.Combine(Path.GetDirectoryName(image), Path.GetFileNameWithoutExtension(image)).Substring(14)
+
+                        </p>
+                    </a>
+
+                </div>
+
+            }
+        </div>
+
+    </div>
+    
+</div>
+
+

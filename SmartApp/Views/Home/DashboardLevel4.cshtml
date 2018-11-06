@@ -1,9 +1,25 @@
-﻿
+﻿@model IEnumerable<dynamic>
 
 
 @{
     ViewBag.Title = "DashboardLevel3";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    SessionUser user = Session["User"] as SessionUser;
+
+
+    List<string> ColorList = new List<string>() {
+"#3CC7F7",
+"#F5D58B",
+"#A0F58B",
+"#F27F91",
+"#D6B2EE",
+"#F9AD6F",
+"#F5B7B1",
+"#C2E2F7",
+"#88EDF5",
+"#D2ADF4"
+ };
+    int i = 0;
 }
 
 <div class=" card card-success" id="menucontainer">
@@ -17,10 +33,31 @@
                         <div class="col-sm-12">
                             <ol class="breadcrumb float-sm-left">
                                 <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
-                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardDetails","Home")">Dashboard</a></li>
-                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">Region </a></li>
-                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3","Home")">Zone </a></li>
-                                <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4","Home")">Territory </a></li>
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">@user.CompanyName</a></li>
+                                @if (!string.IsNullOrEmpty(Request.QueryString["Region"]))
+    {
+                            <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3", "Home", new { Region = Request.QueryString["Region"] })">@ViewBag.Region </a></li>
+
+}
+else
+{
+                            <li class="breadcrumb-item "><a href="#/"> </a>Territories for All Regions</li>
+
+}
+
+                                @if (!string.IsNullOrEmpty(Request.QueryString["Zone"]))
+    {
+                            <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3", "Home")"></a>@ViewBag.Zone</li>
+
+}
+else
+{
+
+                            <li class="breadcrumb-item "><a href="#/"></a>Territories for All Zones</li>
+
+}
+
+                                @*<li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4","Home")">Territory </a></li>*@
 
                             </ol>
                         </div>
@@ -31,89 +68,39 @@
 
                 </div>
                 <div class="row">
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="info-box "style="background-color:#F5D58B">
+                    @foreach (var element in Model)
+                    {
+                        <div class="col-md-3 col-sm-6 col-xs-12">
+                            <div class="info-box " style="background-color:@ColorList[i]">
                                 <span class="info-box-content">
-                                    <a href="/Home/SelectedDetails">
-                                        <span style="color:black!important"class="info-box-text">D.G.KHAN</span>
-                                        <span style="color:black!important"class="info-box-number"> 90/110</span>
+                                    <a href="@Url.Action("Attendance","Home",new { Region = Request.QueryString["Region"], Zone= Request.QueryString["Zone"], Territory=element.VID })">
+                                        <span style="color:black!important" class="info-box-text">@element.VName</span>
+                                        <span style="color:black!important" class="info-box-number"> @element.PP/@element.Total</span>
                                     </a>
 
-</span>
+                                </span>
                                 <div class="info-box-content">
-                                    
-                                    <span style="float:right!important">
-                                        <a href="/Home/SelectedDetails">
+
+                                    <span style="float:right!important;margin-top:45px">
+                                        <a href="@Url.Action("Attendance","Home",new { Region = Request.QueryString["Region"], Zone= Request.QueryString["Zone"], Territory=element.VID })">
                                             <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
                                         </a>
                                     </span>
                                 </div>
 
                                 <!-- /.info-box-content -->
-</div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="info-box "style="background-color:#3CC7F7">
-                                <span class="info-box-content">
-                                    <a href="/Home/SelectedDetails">
-                                        <span style="color:black!important"class="info-box-text">JAM PUR-1</span>
-                                        <span style="color:black!important"class="info-box-number">41/100</span>
-                                    </a>
+                            </div>
+                            <!-- /.info-box -->
+                        </div>
 
-</span>
-                                <div class="info-box-content">
-                                   
-                                    <span style="float:right!important">
-                                        <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-</div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="info-box "style="background-color:#88EDF5">
-                                <span class="info-box-content">
-                                    <a href="/Home/SelectedDetails">
+                        i++;
+                        if (i >= 10)
+                        {
+                            i = 0;
+                        }
+                    }
 
-                                        <span style="color:black!important "class="info-box-text">JAM PUR-2</span>
-                                        <span style="color:black!important "class="info-box-number">76/90</span>
-                                    </a>
 
-</span>
-                                <div class="info-box-content">
-                                   
-                                    <span style="float:right!important">
-                                        <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
-
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-</div>
-                        <!-- /.info-box -->
-                    </div>
-                    <div class="col-md-3 col-sm-6 col-xs-12">
-                        <div class="info-box "style="background-color:#D2ADF4">
-                                <span class="info-box-content">
-                                    <a href="/Home/SelectedDetails">
-
-                                        <span  style="color:black!important "class="info-box-text">MUZAFFAR GARH</span>
-                                        <span  style="color:black!important "class="info-box-number">76/90</span>
-                                    </a>
-
-</span>
-                                <div class="info-box-content">
-                                    
-                                    <span style="float:right!important">
-                                        <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
-                                        
-                                    </span>
-                                </div>
-                                <!-- /.info-box-content -->
-</div>
-                        <!-- /.info-box -->
-                    </div>
                 </div>
 
             </div>
@@ -127,3 +114,67 @@
 
 
 
+@*
+
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box " style="background-color:#3CC7F7">
+            <span class="info-box-content">
+                <a href="/Home/SelectedDetails">
+                    <span style="color:black!important" class="info-box-text">JAM PUR-1</span>
+                    <span style="color:black!important" class="info-box-number">41/100</span>
+                </a>
+
+            </span>
+            <div class="info-box-content">
+
+                <span style="float:right!important">
+                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box " style="background-color:#88EDF5">
+            <span class="info-box-content">
+                <a href="/Home/SelectedDetails">
+
+                    <span style="color:black!important " class="info-box-text">JAM PUR-2</span>
+                    <span style="color:black!important " class="info-box-number">76/90</span>
+                </a>
+
+            </span>
+            <div class="info-box-content">
+
+                <span style="float:right!important">
+                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="info-box " style="background-color:#D2ADF4">
+            <span class="info-box-content">
+                <a href="/Home/SelectedDetails">
+
+                    <span style="color:black!important " class="info-box-text">MUZAFFAR GARH</span>
+                    <span style="color:black!important " class="info-box-number">76/90</span>
+                </a>
+
+            </span>
+            <div class="info-box-content">
+
+                <span style="float:right!important">
+                    <a href="/Home/SelectedDetails"> <h7 style="font-size:15px;text-align:end;"> Details</h7> </a>
+
+                </span>
+            </div>
+            <!-- /.info-box-content -->
+        </div>
+        <!-- /.info-box -->
+    </div>
+*@

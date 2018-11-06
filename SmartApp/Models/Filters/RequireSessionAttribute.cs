@@ -1,4 +1,5 @@
 ﻿
+using SmartApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,8 @@ namespace SmartApp.Filters
         {
             var controller = (Controller)filterContext.Controller;
             SessionUser _user = controller.Session["User"] as SessionUser;
-            if (_user == null)
+            List<Company> Companies = controller.Session["Companies"] as List<Company>;
+            if (_user == null || Companies == null)
             {
                 filterContext.Result = new RedirectToRouteResult(new System.Web.Routing.RouteValueDictionary { { "action", "Login" }, { "controller", "Account" } });
             }
