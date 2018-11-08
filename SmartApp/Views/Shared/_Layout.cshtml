@@ -87,7 +87,9 @@
             background-color: #f7786b !important;
         }
 
-        .dropdown-menu {
+
+
+        .dropdown-menu-2 {
             width: 400px;
             margin-left: -220px;
             padding: 10px;
@@ -118,16 +120,12 @@
                     </li>*@
             </ul>
             <!-- SEARCH FORM -->
-            @*<form class="form-inline ml-3">
+            <form class="form-inline ml-3">
                     <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search" aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fa fa-search"></i>
-                            </button>
-                        </div>
+                        @user.CompanyName @user.LoginTime.ToString("hh:mm tt")
+                      
                     </div>
-                </form>*@
+                </form>
             <!-- Right navbar links -->
             <ul class="navbar-nav ml-auto">
                 <!-- Messages Dropdown Menu -->
@@ -140,7 +138,7 @@
                             </div>
                         </div>
                     </a>
-                    <div class="dropdown-menu" id="ProfileBox" style="margin-left:850px">
+                    <div class="dropdown-menu dropdown-menu-2" id="ProfileBox" style="margin-left:850px">
 
                         <form action="@Url.Action("UpdateSession","Panel")" method="post">
                             <input type="hidden" value="@Request.Url.ToString()" name="RedirectURL" />
@@ -738,6 +736,14 @@
 
             },
             methods: {
+                startOfWeek(date)  {
+                var diff = date.getDate() - date.getDay() + (date.getDay() === 0 ? -6 : 1);
+                return new Date(date.setDate(diff));
+                },
+                endOfWeek(date) {
+                    var lastday = date.getDate() - (date.getDay() - 1) + 6;
+                    return new Date(date.setDate(lastday));
+                },
                 GetMonthFirstDate() {
        
                     var date = new Date();

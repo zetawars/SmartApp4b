@@ -1,5 +1,6 @@
 ﻿@model IEnumerable<dynamic>
 
+
 @{
     ViewBag.Title = "DashboardLevel3";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,45 +33,52 @@
                         <div class="col-sm-12">
                             <ol class="breadcrumb float-sm-left">
                                 <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Home</a></li>
-                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">@user.Compabb </a></li>
-                                @if (ViewBag.Region == null)
+
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","FAS", new { Type = Request.QueryString["Type"]})">@user.Compabb</a></li>
+                                @if (!string.IsNullOrEmpty(Request.QueryString["Region"]))
     {
-                            <li class="breadcrumb-item active"><a href="#/"> </a>Zones for All Regions </li>
+                            <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3", "FAS", new { Type=Request.QueryString["Type"], Region = Request.QueryString["Region"] })">@ViewBag.Region </a></li>
 
 }
 else
 {
-                            <li class="breadcrumb-item active"><a href="#/"> </a>@ViewBag.Region </li>
+                            <li class="breadcrumb-item "><a href="#/"> </a>Territories for All Regions</li>
+
+}
+
+                                @if (!string.IsNullOrEmpty(Request.QueryString["Zone"]))
+    {
+                            <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3", "FAS", new { Type= Request.QueryString["Type"] })"></a>@ViewBag.Zone</li>
+
+}
+else
+{
+
+                            <li class="breadcrumb-item "><a href="#/"></a>Territories for All Zones</li>
 
 }
 
                             </ol>
                         </div>
-                        @*<div class="col-sm-6">
-                                <h1 class="m-0 text-dark">Dashboard</h1>
-                            </div>*@
                     </div>
-
                 </div>
                 <div class="row">
                     @foreach (var element in Model)
                     {
                         <div class="col-md-3 col-sm-6 col-xs-12">
                             <div class="info-box " style="background-color:@ColorList[i]">
-
                                 <span class="info-box-content">
-                                    <a href="#">
-                                        <span style="color:black!important" data-id="@element.VID" class="info-box-text r1">@element.VName</span>
+                                    <a href="@Url.Action("Details","FAS",new { Type=Request.QueryString["Type"], Region = Request.QueryString["Region"], Zone= Request.QueryString["Zone"], Territory=element.VID })">
+                                        <span style="color:black!important" class="info-box-text">@element.VName</span>
                                         <span style="color:black!important" class="info-box-number"> @element.PP/@element.Total</span>
                                         <span style="color:black!important" class="info-box-number"> @element.Per%</span>
-
                                     </a>
-                                </span>
 
+                                </span>
                                 <div class="info-box-content">
 
                                     <span style="float:right!important;margin-top:45px">
-                                        <a href="@Url.Action("Attendance", "Home", new {Region= Request.QueryString["Region"] , Zone = element.VID})">
+                                        <a href="@Url.Action("Details","FAS",new { Type=Request.QueryString["Type"], Region = Request.QueryString["Region"], Zone= Request.QueryString["Zone"], Territory=element.VID })">
                                             <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
                                         </a>
                                     </span>
@@ -80,6 +88,7 @@ else
                             </div>
                             <!-- /.info-box -->
                         </div>
+
                         i++;
                         if (i >= 10)
                         {
@@ -87,38 +96,8 @@ else
                         }
                     }
 
-
-                    <input type="hidden" id="RegionVal" value="@Request.QueryString["Region"]">
-
-
                 </div>
-
             </div>
         </div>
-
-
-
     </div>
 </div>
-
-
-
-
-
-
-@section Scripts{
-
-    <script>
-        $(document).on('click', '.r1', function () {
-            var Zone = $(this).data("id");
-            var Region = $("#RegionVal").val();
-            window.location = '@Url.Action("DashboardLevel4", "Home")' + "?Region=" + Region + "&Zone=" + Zone;
-            //$("#name").html(Region);
-            //alert(Region);
-            //var test = $("#name").val();
-            //alert(test);
-        });
-
-
-    </script>
-}

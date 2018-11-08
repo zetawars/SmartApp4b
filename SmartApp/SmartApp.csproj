@@ -3044,6 +3044,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\DashboardActivityController.cs" />
     <Compile Include="Controllers\DemoController.cs" />
+    <Compile Include="Controllers\FASController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PanelController.cs" />
     <Compile Include="Controllers\UserGroupController.cs" />
@@ -3063,14 +3064,17 @@
     <Compile Include="Models\Filters\ErrorHandlerAttribute.cs" />
     <Compile Include="Models\Filters\RequireSessionAttribute.cs" />
     <Compile Include="Models\Hubs\Notification.cs" />
+    <Compile Include="Models\Repositories\FASRepository.cs" />
     <Compile Include="Models\Repositories\AttendanceRepository.cs" />
     <Compile Include="Models\Repositories\CompanyRepository.cs" />
     <Compile Include="Models\Repositories\CreditDebitRepository.cs" />
     <Compile Include="Models\Repositories\DBRepository.cs" />
     <Compile Include="Models\Repositories\SqlCeConnection.cs" />
     <Compile Include="Models\Repositories\UserRepository.cs" />
+    <Compile Include="Models\ViewModels\ActivityDetails.cs" />
     <Compile Include="Models\ViewModels\Common.cs" />
     <Compile Include="Models\ViewModels\DemoEntry.cs" />
+    <Compile Include="Models\ViewModels\FASViewModel.cs" />
     <Compile Include="Models\ViewModels\Filter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -3105,6 +3109,11 @@
     <Content Include="Views\Home\Attendance.cshtml" />
     <Content Include="Views\DashboardActivity\UploadImages.cshtml" />
     <Content Include="Views\Home\GetDetailsList.cshtml" />
+    <Content Include="Views\FAS\Details.cshtml" />
+    <Content Include="Views\FAS\DashboardLevel2.cshtml" />
+    <Content Include="Views\FAS\DashboardLevel3.cshtml" />
+    <Content Include="Views\FAS\DashboardLevel4.cshtml" />
+    <Content Include="Views\FAS\DashboardLevel5.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -30,9 +30,8 @@ namespace SmartApp.Controllers
         {
             Company comp = CompanyRepo.GetCompany(CompanyID);
             user.CompCode = CompanyID;
-
-            user.CompanyName = comp.Compabb;
-
+            user.CompanyName = comp.CompanyName;
+            user.Compabb = comp.Compabb;
             user.DateTo = DateTo;
             user.DateFrom = DateFrom;
 

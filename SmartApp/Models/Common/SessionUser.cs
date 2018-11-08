@@ -29,8 +29,8 @@ namespace System
         public DateTime DateTo { get; set; }
         public DateTime DateFrom { get; set; }
         public DateTime ServerDateTime { get; set; }
-
-
+        public string Compabb { get; set; }
+        public DateTime LoginTime { get; set; }
         public SessionUser(User user)
         {
             if (user != null)
@@ -45,6 +45,7 @@ namespace System
                 this.TerritoryID = user.TerritoryID;
                 this.CompanyAbbrivation = user.Compabb;
                 this.CompanyName = user.Compname;
+                this.Compabb = user.Compabb;
                 this.RegionName = user.RegionName;
                 this.ZoneName = user.ZoneName;
                 this.TerritoryName = user.TerritoryName;
@@ -55,6 +56,7 @@ namespace System
                 this.ServerDateTime = user.ServerDateTime;
                 this.DateFrom = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-") + "01");
                 this.DateTo = DateTime.Now;
+                this.LoginTime = DateTime.Now;
             }
         }
 

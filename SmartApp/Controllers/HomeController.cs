@@ -21,33 +21,61 @@ namespace SmartApp.Controllers
         }
         public ActionResult Dashboard()
         {
-            AttendanceViewModel vm = new AttendanceViewModel();
-            vm.DateFrom = DateTime.Parse(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
-            vm.DateTo = DateTime.Now;
+            //AttendanceViewModel vm = new AttendanceViewModel();
+            //vm.DateFrom = DateTime.Parse(DateTime.Now.AddMonths(-1).ToString("yyyy-MM-dd"));
+            //vm.DateTo = DateTime.Now;
             //var list = AttendanceRepo.GetDetails("","","",0);
 
-            var list = AttendanceRepo.GetDetails("FirstCheckIn", AttendanceRepo.GetWhereClause(vm,1), "", user.UserID);
-            ViewBag.ListDetails = list;
-            int counter = 0;
-            foreach (var item in list)
+
+            //var list = AttendanceRepo.GetDetails("FirstCheckIn", AttendanceRepo.GetWhereClause(vm,1), "", user.UserID);
+            //ViewBag.ListDetails = list;
+            //int counter = 0;
+            //foreach (var item in list)
+            //{
+            //    string temp = item.VType;
+            //    if (temp.Equals("Absent"))
+            //    {
+            //        counter++;
+            //    }
+            //}
+
+
+            //int total = list.Count();
+            //int final = list.Count() - counter;
+            //TempData["PresentCount"] = final;
+            //TempData["TotalCount"] = total;
+            //int percentage = (int)Math.Round((double)(100 * final) / total);
+            //TempData["Percent"] = percentage;
+
+
+
+            AttendanceViewModel vm = new AttendanceViewModel();
+
+            vm.DateFrom = user.DateFrom;
+            vm.DateTo = user.DateTo;
+            vm.SelectedCompanies.Add(user.CompCode.ToString());
+
+            var k = AttendanceRepo.GetRegionBoxes("FirstCheckIn", AttendanceRepo.GetWhereClause(vm, 1), AttendanceRepo.GetWhereAbClause(vm, 1, user.UserID), user.UserID);
+
+            var Present = k.Select(x => new { x.PP }).ToList().Sum(x=>x.PP);
+            var Total = k.Select(x => new { x.Total }).ToList().Sum(x => x.Total);
+            ViewBag.Present = Present;
+
+            ViewBag.Total = Total;
+            double Percent = 0;
+            try
             {
-                string temp = item.VType;
-                if (temp.Equals("Absent"))
+                Percent = Math.Round(((double)Present / (double)Total) * 100);
+                if (double.IsNaN(Percent))
                 {
-                    counter++;
+                    Percent = 0;
                 }
             }
-
-
-            int total = list.Count();
-            int final = list.Count() - counter;
-            TempData["PresentCount"] = final;
-            TempData["TotalCount"] = total;
-            int percentage = (int)Math.Round((double)(100 * final) / total);
-            TempData["Percent"] = percentage;
-
-
-
+            catch (Exception ex)
+            {
+                Percent = 0;
+            }
+            ViewBag.Percent = Percent;
             return View();
         }
         public ActionResult DashboardDetails()
@@ -117,6 +145,9 @@ namespace SmartApp.Controllers
         {
             return View();
         }
+
+
+
         public ActionResult DrillDown()
         {
             return View(CRepo.GetList());
@@ -160,43 +191,69 @@ namespace SmartApp.Controllers
             vm.SelectedCompanies = new List<string>();
             vm.SelectedCompanies.Add(user.CompCode.ToString());
 
-            vm.Regions = AttendanceRepo.GetRegions(1, vm.Companies.Select(x => x.Compcode.ToString()).ToList(), user.UserID);
+            vm.Regions = AttendanceRepo.GetRegions(1, vm.SelectedCompanies, user.UserID);
 
 
             vm.SelectedRegions = new List<string>();
             if (!string.IsNullOrEmpty(Region))
             {
+                Region region = AttendanceRepo.GetRegion(int.Parse(Region));
+                ViewBag.Region = region.Name;
+
                 vm.SelectedRegions.Add(Region);
             }
-            vm.Zones = AttendanceRepo.GetZones(1, vm.Companies.Select(x => x.Compcode.ToString()).ToList(), vm.Regions.Select(x => x.ID.ToString()).ToList(), user.UserID);
+
+            if (vm.SelectedRegions.Count != 0)
+            {
+                vm.Zones = AttendanceRepo.GetZones(1, vm.SelectedCompanies, vm.SelectedRegions, user.UserID);
+            }
+            else
+            {
+                vm.Zones = AttendanceRepo.GetZones(1, vm.SelectedCompanies, vm.Regions.Select(x => x.ID.ToString()).ToList(), user.UserID);
+            }
+
+            vm.Zones = AttendanceRepo.GetZones(1, vm.SelectedCompanies, vm.Regions.Select(x => x.ID.ToString()).ToList(), user.UserID);
             vm.SelectedZones = new List<string>();
             if (!string.IsNullOrEmpty(Zone))
             {
+                Zone zone = AttendanceRepo.GetZone(Zone);
+                ViewBag.Zone = zone.Name;
                 vm.SelectedZones.Add(Zone);
             }
 
+            if (vm.SelectedZones.Count != 0)
+            {
+                if (vm.SelectedRegions.Count != 0)
+                {
+                    vm.Territories = AttendanceRepo.GeTerritories(1, vm.SelectedCompanies, vm.SelectedRegions, vm.SelectedZones, user.UserID);
+                }
+                else
+                {
+                    vm.Territories = AttendanceRepo.GeTerritories(1, vm.SelectedCompanies, vm.Regions.Select(x => x.ID.ToString()).ToList(), vm.SelectedZones, user.UserID);
+                }
+            }
+            else
+            {
+                vm.Territories = AttendanceRepo.GeTerritories(1, vm.SelectedCompanies, vm.Regions.Select(x => x.ID.ToString()).ToList(), vm.Zones.Select(x => x.ID.ToString()).ToList(), user.UserID);
+            }
 
-            vm.Territories = AttendanceRepo.GeTerritories(1, vm.Companies.Select(x => x.Compcode.ToString()).ToList(), vm.Regions.Select(x => x.ID.ToString()).ToList(), vm.Zones.Select(x => x.ID.ToString()).ToList(), user.UserID);
+            vm.Territories = AttendanceRepo.GeTerritories(1, vm.SelectedCompanies, vm.Regions.Select(x => x.ID.ToString()).ToList(), vm.Zones.Select(x => x.ID.ToString()).ToList(), user.UserID);
             vm.SelectedTerritories = new List<string>();
             if (!string.IsNullOrEmpty(Territory))
             {
+                Territory territory = AttendanceRepo.GetTerritory(Territory);
+                ViewBag.Territory = territory.Name;
+
                 vm.SelectedTerritories.Add(Territory);
             }
 
-            vm.DateFrom = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-dd"));
-            vm.DateTo = DateTime.Now;
-            //var list = AttendanceRepo.GetDetails("","","",0);
+            vm.DateFrom = user.DateFrom;
+            vm.DateTo = user.DateTo;
 
             var list = AttendanceRepo.GetDetails("FirstCheckIn",AttendanceRepo.GetWhereClause(vm,1),AttendanceRepo.GetWhereAbClause(vm,1,user.UserID), user.UserID);
             ViewBag.ListDetails = list;
             
-           
-            //string mycount = list.Where(x => x.VType).Equals("Absent").ToString();
-            
-            //int total = list.Count();
-            //int final= list.Count() - Convert.ToInt32(mycount);
-            //TempData["PresentCount"] = final;
-            //TempData["TotalCount"] = total;
+
             return View(vm);
         }
 
@@ -281,20 +338,6 @@ namespace SmartApp.Controllers
             return Json(new { TerritoryDropdown });
         }
 
-        //public ActionResult GetDetailsList()
-        //{
-        //    var list = AttendanceRepo.GetDetails("FirstCheckIn", AttendanceRepo.GetWhereClause(vm), "", user.UserID);
-        //    ViewBag.ListDetails = list;
-
-
-        //    string mycount = list.Where(x => x.VType).Equals("Absent").ToString();
-
-        //    int total = list.Count();
-        //    int final = list.Count() - Convert.ToInt32(mycount);
-        //    TempData["PresentCount"] = final;
-        //    TempData["TotalCount"] = total;
-        //    return RedirectToAction("Dashboard");
-        //}
 
 
     }

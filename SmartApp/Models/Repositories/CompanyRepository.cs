@@ -27,7 +27,7 @@ namespace SmartApp.Models.Repositories
 
         public Company GetCompany(int CompanyID)
         {
-            string query = $@" SELECT distinct Compcode, compabb FROM Viewuserzone where Compcode= {CompanyID}; ";
+            string query = $@" SELECT distinct Compcode, compabb, compname as CompanyName FROM Viewuserzone where Compcode= {CompanyID}; ";
             using (var connection = new SqlConnection(ConnectionString))
             {
                 return connection.QueryFirstOrDefault<Company>(query);

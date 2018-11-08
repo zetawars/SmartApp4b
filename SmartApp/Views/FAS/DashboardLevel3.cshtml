@@ -32,7 +32,7 @@
                         <div class="col-sm-12">
                             <ol class="breadcrumb float-sm-left">
                                 <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Home</a></li>
-                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">@user.Compabb </a></li>
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","FAS", new { Type = Request.QueryString["Type"]})">@user.Compabb </a></li>
                                 @if (ViewBag.Region == null)
     {
                             <li class="breadcrumb-item active"><a href="#/"> </a>Zones for All Regions </li>
@@ -60,7 +60,7 @@ else
 
                                 <span class="info-box-content">
                                     <a href="#">
-                                        <span style="color:black!important" data-id="@element.VID" class="info-box-text r1">@element.VName</span>
+                                        <span style="color:black!important" data-type="@Request.QueryString["Type"]" data-id="@element.VID" class="info-box-text r1">@element.VName</span>
                                         <span style="color:black!important" class="info-box-number"> @element.PP/@element.Total</span>
                                         <span style="color:black!important" class="info-box-number"> @element.Per%</span>
 
@@ -70,7 +70,7 @@ else
                                 <div class="info-box-content">
 
                                     <span style="float:right!important;margin-top:45px">
-                                        <a href="@Url.Action("Attendance", "Home", new {Region= Request.QueryString["Region"] , Zone = element.VID})">
+                                        <a href="@Url.Action("Details", "FAS", new {Type = Request.QueryString["Type"], Region= Request.QueryString["Region"] , Zone = element.VID})">
                                             <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
                                         </a>
                                     </span>
@@ -111,8 +111,11 @@ else
     <script>
         $(document).on('click', '.r1', function () {
             var Zone = $(this).data("id");
+
             var Region = $("#RegionVal").val();
-            window.location = '@Url.Action("DashboardLevel4", "Home")' + "?Region=" + Region + "&Zone=" + Zone;
+
+            var Type = $(this).data("type")
+            window.location = '@Url.Action("DashboardLevel4", "FAS")' + "?" +  "Region=" + Region + "&Zone=" + Zone + "&Type=" + Type;
             //$("#name").html(Region);
             //alert(Region);
             //var test = $("#name").val();

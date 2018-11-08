@@ -32,8 +32,9 @@
 
                         <div class="col-sm-12">
                             <ol class="breadcrumb float-sm-left">
-                                <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
-                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">@user.CompanyName</a></li>
+                                <li class="breadcrumb-item"><a href="@Url.Action("Dashboard","Home")">Home</a></li>
+
+                                <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">@user.Compabb</a></li>
                                 @if (!string.IsNullOrEmpty(Request.QueryString["Region"]))
     {
                             <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel3", "Home", new { Region = Request.QueryString["Region"] })">@ViewBag.Region </a></li>

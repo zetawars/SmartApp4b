@@ -2,221 +2,268 @@
 @{
     ViewBag.Title = "ActivityDetails";
     Layout = "~/Views/Shared/_Layout.cshtml";
-   
+
 }
+<style>
+    .custo-test {
+        word-wrap: break-word;
+    }
+
+    .custom-span {
+        display: block;
+        width: 150px;
+        word-wrap: break-word;
+    }
+</style>
 <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
-<div class="content-wrapper"@*style="background-color:white !important"*@ style="background-image: url('/Content/img/activity_bgCopy.jpg');" >
+<div class="content-wrapper" @*style="background-color:white !important"*@ style="background-image: url('/Content/img/activity_bgCopy.jpg');">
     <div class="container-fluid">
 
         <div class="row mb-2">
 
             <div class="col-sm-12">
                 <ol class="breadcrumb float-sm-left">
-                    <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Dashboard", "Home")">Home</a></li>
                     <li class="breadcrumb-item active"><a href="/"></a>Activities</li>
-                 
-                             
+
+
                 </ol>
             </div>
 
         </div>
-        </div>
-        <section class="container-fluid">
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-info-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/ic_farmer_visit.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">FAS</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-success-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/ic_demo.png" width="50"height="50" />
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Demo</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-warning-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/ic_pre_field_day.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Pre Field Visit</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-danger-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/ic_field_day.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Field Day</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-            </div>
-            <div style="height:10px;">
-
-            </div>
-            <div class="row">
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-success-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/ic_meetings.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Meetings</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-info-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/departments_icon.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Visit to EI's</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-danger-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/franchise_icon.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">Franchise Visit</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-                <div class="col-md-3 col-sm-6 col-12">
-                    <div class="info-box bg-primary-gradient">
-                        <span class="info-box-icon">
-                            <img src="~/Images/drawable/demand.png" width="50"height="50"/>
-
-                        </span>
-
-                        <div class="info-box-content">
-                            <span class="info-box-text">On Demand Farmer</span>
-                            <span class="info-box-number">41,410</span>
-
-                            @*<div class="progress">
-                            <div class="progress-bar" style="width: 70%"></div>
-                        </div>
-                        <span class="progress-description">
-                            70% Increase in 30 Days
-                        </span>*@
-                        </div>
-                        <!-- /.info-box-content -->
-                    </div>
-                    <!-- /.info-box -->
-                </div>
-                <!-- /.col -->
-            </div>
-        </section>
-
-
     </div>
+    <section class="container-fluid">
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12">
+
+
+                <div class="info-box bg-info-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/ic_farmer_visit.png" width="50" height="50" />
+                    </span>
+                    <div class="info-box-content">
+                        <a href="@Url.Action("DashboardLevel2", "FAS", new { Type = "FAS"})" style="color:white">
+                            <span class="info-box-text">FAS</span>
+                            <span class="info-box-number">@Model.FASBox.PP/@Model.FASBox.Total</span>
+                            <span style="color:black!important" class="info-box-number">@Model.FASBox.Per%</span>
+                        </a>
+                    </div>
+                    <div class="info-box-content">
+                        <a href="@Url.Action("Details", "FAS", new { Type = "FAS"})">
+                            <span style="float:right!important;margin-top:45px">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-success-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/ic_demo.png" width="50" height="50" />
+                    </span>
+
+                    <div class="info-box-content">
+                        <a href="@Url.Action("DashboardLevel2", "FAS", new { Type = "Demo"})" style="color:white">
+                            <span class="info-box-text">Demo</span>
+                            <span class="info-box-number">@Model.DemoBox.PP/@Model.DemoBox.Total</span>
+                            <span style="color:black!important" class="info-box-number">@Model.DemoBox.Per%</span>
+
+                        </a>
+                    </div>
+                    <div class="info-box-content">
+                        <a href="@Url.Action("Details", "FAS", new { Type = "Demo"})">
+                            <span style="float:right!important;margin-top:45px">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-warning-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/ic_pre_field_day.png" width="50" height="50" />
+                    </span>
+                    <div class="info-box-content">
+                        <a href="@Url.Action("DashboardLevel2", "FAS", new { Type = "F/D"})" style="color:white">
+                            <span class="info-box-text">Field Day</span>
+                            <span class="info-box-number">@Model.FDBox.PP/@Model.FDBox.Total</span>
+                            <span style="color:black!important" class="info-box-number">@Model.FDBox.Per%</span>
+
+                        </a>
+                    </div>
+                    <div class="info-box-content">
+                        <a href="@Url.Action("Details", "FAS", new { Type = "F/D"})">
+                            <span style="float:right!important;margin-top:45px">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-success-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/ic_pre_field_day.png" width="50" height="50" />
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Farmer Meeting</span>
+                        <span class="info-box-number">41,410</span>
+                        <span style="float:right!important;">
+                            <a href="@Url.Action("Details", "FAS")">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </a>
+                        </span>
+
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+
+            <!-- /.col -->
+        </div>
+        <div style="height:10px;">
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-success-gradient">
+                    <a href="#" title="Franchise Meetings-Non Registered">
+                        <span class="info-box-icon">
+                            <img src="~/Images/drawable/ic_meetings.png" width="50" height="50" />
+                        </span>
+                    </a>
+
+
+                    <div class="info-box-content">
+                        <span class="custom-span">Franchise Meetings-Registereds</span>
+                        <span class="info-box-number">41,410</span>
+                        <span style="float:right!important;">
+                            <a href="@Url.Action("Details", "FAS")">
+                                <h7 style="font-size:15px;text-align:end;color:black!important">Details</h7>
+                            </a>
+                        </span>
+
+                    </div>
+
+
+
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-info-gradient">
+                    <a href="#" title="Franchise Meetings-Registered">
+                        <span class="info-box-icon">
+                            <img src="~/Images/drawable/ic_meetings.png" width="50" height="50" />
+                        </span>
+                    </a>
+
+
+                    <div class="info-box-content">
+                        <span class="custom-span">Franchise Meetings-Non Registered</span>
+                        <span class="info-box-number">41,410</span>
+
+                        <a href="@Url.Action("Details", "FAS")" style="float:right!important;">
+                            <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                        </a>
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-danger-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/franchise_icon.png" width="50" height="50" />
+
+                    </span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Franchise Visit</span>
+                        <span class="info-box-number">41,410</span>
+                        <span style="float:right!important;">
+                            <a href="@Url.Action("Details", "FAS")">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </a>
+                        </span>
+                        @*<div class="progress">
+                                <div class="progress-bar" style="width: 70%"></div>
+                            </div>
+                            <span class="progress-description">
+                                70% Increase in 30 Days
+                            </span>*@
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-primary-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/demand.png" width="50" height="50" />
+
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">On Demand Farmer</span>
+                        <span class="info-box-number">41,410</span>
+                        <span style="float:right!important;">
+                            <a href="@Url.Action("Details", "FAS")">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </a>
+                        </span>
+                        @*<div class="progress">
+                                <div class="progress-bar" style="width: 70%"></div>
+                            </div>
+                            <span class="progress-description">
+                                70% Increase in 30 Days
+                            </span>*@
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <div style="height:10px;">
+
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-6 col-12">
+                <div class="info-box bg-danger-gradient">
+                    <span class="info-box-icon">
+                        <img src="~/Images/drawable/ic_field_day.png" width="50" height="50" />
+
+                    </span>
+
+                    <div class="info-box-content">
+                        <span class="info-box-text">Visit to EI's</span>
+                        <span class="info-box-number">41,410</span>
+                        <span style="float:right!important;">
+                            <a href="@Url.Action("Details", "FAS")">
+                                <h7 style="font-size:15px;text-align:end;color:black!important"> Details</h7>
+                            </a>
+                        </span>
+
+                    </div>
+                    <!-- /.info-box-content -->
+                </div>
+                <!-- /.info-box -->
+            </div>
+        </div>
+    </section>
+
+
+</div>
 
 
 

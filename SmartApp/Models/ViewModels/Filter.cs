@@ -40,6 +40,7 @@ namespace SmartApp.Models.ViewModels
     {
         public int Compcode { get; set; }
         public string Compabb { get; set; }
+        public string CompanyName { get; set; }
     }
 
     public class Region

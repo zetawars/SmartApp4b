@@ -1,9 +1,9 @@
 ﻿@using Newtonsoft.Json
 @using SmartApp.Models.DBModels
 @using SmartApp.Models.ViewModels;
-@model SmartApp.Models.ViewModels.AttendanceViewModel
+@model SmartApp.Models.ViewModels.FASViewModel
 @{
-    ViewBag.Title = "Attendance";
+    ViewBag.Title = "FAS";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     //SessionUser user = new SessionUser();
@@ -41,39 +41,39 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 @*<div class="col-sm-6">
-                        <h1 class="m-0 text-dark">Attendance</h1>
+                        <h1 class="m-0 text-dark">FAS</h1>
                     </div>*@<!-- /.col -->
                 <div class="col-sm-12">
 
                     <ol class="breadcrumb float-sm-left">
                         <li class="breadcrumb-item"><a href="/Home/Dashboard">Home</a></li>
-                        <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","Home")">@user.CompanyName </a></li>
+                        <li class="breadcrumb-item "><a href="@Url.Action("DashboardLevel2","FAS", new { Type=Request.QueryString["Type"]})">@user.CompanyName </a></li>
                         @if (ViewBag.Region == null)
                         {
-                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel1", "Home")">All Regions for Company </a></li>
+                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel3", "FAS", new { Type = Request.QueryString["Type"]})">All Regions for Company </a></li>
                         }
                         else
                         {
-                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel2", "Home")?@Server.UrlDecode(Request.QueryString.ToString())">@ViewBag.Region</a></li>
+                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel3", "FAS")?@Server.UrlDecode(Request.QueryString.ToString())">@ViewBag.Region</a></li>
                         }
                         @if (ViewBag.Zone == null)
                         {
-                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel3", "Home")">Zones for All Regions</a> </li>
+                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "FAS", new { Type = Request.QueryString["Type"]})">Zones for All Regions</a> </li>
 
                         }
                         else
                         {
-                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "Home")?@Server.UrlDecode(Request.QueryString.ToString())">@ViewBag.Zone</a> </li>
+                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "FAS")?@Server.UrlDecode(Request.QueryString.ToString())">@ViewBag.Zone</a> </li>
 
                         }
                         @if (ViewBag.Territory == null)
                         {
-                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "Home")">Territory for all Zones </a></li>
+                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "FAS", new { Type = Request.QueryString["Type"]})">Territory for all Zones </a></li>
 
                         }
                         else
                         {
-                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "Home")?@Server.UrlDecode(Request.QueryString.ToString())"> </a> @ViewBag.Territory</li>
+                            <li class="breadcrumb-item active"><a href="@Url.Action("DashboardLevel4", "FAS")?@Server.UrlDecode(Request.QueryString.ToString())"> </a> @ViewBag.Territory</li>
 
                         }
 
@@ -87,64 +87,74 @@
     <section class="content small">
 
         <div id="Filter" >
-            <form id="AttendanceForm" method="post" action="@Url.Action("Attendance","Home")">
+            <form id="FASForm" method="post" action="@Url.Action("Details","FAS")">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h5 class="card-title">
                             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" class="collapsed" aria-expanded="false">
+                                <i class="fa fa-chevron-circle-down pull-right"></i>
                                 Filters
                             </a>
                         </h5>
                     </div>
-                    <div id="collapseOne" class="panel-collapse in collapse show" style="">
+                    <div id="collapseOne" class="panel-collapse in collapse " style="">
                         <div class="card-body">
                             <div class="row">
                                 <div class="col-md-3">
-
-                                    <div class="form-group">
-                                        <label class="control-label sm">Company</label>
-                                       @*@if (user.CompanyName != null)
-                                       {
-
-                                        <select2 :options="@user.CompanyName"  @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value=""></select2>
-
-                                       }*@
-                                        <select2 :options="Companies"  @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value="SelectedCompanies"></select2>
-                                    </div>
+                                    <label class="control-label sm">Company</label>
+                                    <select2 :options="Companies" @@input="CompanyChange($event);" name="SelectedCompanies" v-bind:value="SelectedCompanies"></select2>
                                 </div>
                                 <div class="col-md-3">
                                     <label class="control-label">Region</label>
-                                    @*@if (user.RegionName != null)
-                                    {
-
-                                        <select :options="@user.RegionName"  name="SelectedCompanies" ></select>
-
-                                    }*@
                                     <select2 :options="Regions" multiple @@input="RegionChange($event);" ref="RegionList" name="SelectedRegions" v-bind:value="SelectedRegions"></select2>
 
                                 </div>
                                 <div class="col-md-3">
                                     <label class="control-label">Zone</label>
-                                    <select2 :options="Zones" multiple @*@@input="ZoneChange($event);"*@ name="SelectedZones" v-bind:value="SelectedZones"></select2>
+                                    <select2 :options="Zones" multiple @@input="ZoneChange($event);" name="SelectedZones" v-bind:value="SelectedZones"></select2>
 
                                 </div>
                                 <div class="col-md-3">
                                     <label class="control-label">Territory</label>
-                                    <select2 :options="Territories" multiple @*@@input="TerritoryChange($event);"*@ name="SelectedTerritories" v-bind:value="SelectedTerritories"></select2>
+                                    <select2 :options="Territories" multiple @@input="TerritoryChange($event);" name="SelectedTerritories" v-bind:value="SelectedTerritories"></select2>
                                 </div>
                             </div>
                             <br />
                             <div class="row">
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control" id="Search" name="SearchBox" v-model="SearchBox" placeholder="Search" />
+                                <div class="col-md-3">
+                                    <label class="control-label sm">District</label>
+                                    <select2 :options="Districts" @@input="DistrictChange($event);" name="SelectedDistricts" v-bind:value="SelectedDistricts"></select2>
                                 </div>
+                                <div class="col-md-3">
+                                    <label class="control-label sm">Villages</label>
+                                    <select2 :options="Villages" @@input="RegionChange($event);" ref="VillageList" name="SelectedVillages" v-bind:value="SelectedVillages"></select2>
 
-                                <div class="col-md-4">
-                                    <input type="text" class="form-control datepicker" id="DateFrom" name="DateFrom" autocomplete="off" v-model="DateFrom" placeholder="DateFrom" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Farmers</label>
+                                    <select2 :options="Farmers" @@input="FarmerChange($event);" name="SelectedFarmers" v-bind:value="SelectedFarmers"></select2>
+
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="control-label">Crop</label>
+                                    <select2 :options="Crops" @@input="CropChange($event);" name="SelectedCrops" v-bind:value="SelectedCrops"></select2>
+                                </div>
+                            </div>
+                            
+
+
+                            <br />
+                            <div class="row">
+                                @*<div class="col-md-3">
+                <input type="text" class="form-control form-control-sm" id="Search" name="SearchBox" v-model="SearchBox" placeholder="Search" />
+            </div>*@
+                                <div class="col-md-3">
+                                    <label>Date From</label>
+                                    <input type="text" class="form-control form-control-sm datepicker" id="DateFrom" name="DateFrom" autocomplete="off" v-model="DateFrom" placeholder="DateFrom" />
                                 </div>
                                 <div class="col-md-4">
-                                    @*<datepicker :value.sync="DateTo"></datepicker>*@
-                                    <input type="text" class="form-control datepicker" id="DateTo" name="DateTo" autocomplete="off" v-model="DateTo" placeholder="DateTo" />
+                                    <label>Date To</label>
+                                    <input type="text" class="form-control form-control-sm datepicker" id="DateTo" name="DateTo" autocomplete="off" v-model="DateTo" placeholder="DateTo" />
                                 </div>
                             </div>
                         </div>
@@ -177,48 +187,78 @@
 
                     <table  class="table table-striped DataTable" style="width:100% !important">
                         <thead>
-                                <tr >
-                                    <th>SrlNum</th>
-                                    <th>Company</th>
-                                    <th>Region</th>
-                                    <th>Zone</th>
-                                    <th>Territory</th>
-                                    <th>UserName</th>
-                                    <th>Address</th>
-                                    <th>Record Date</th>
-                                    <th>Record Time</th>
-                                    <th>Activity/Status</th>
-                                    <th>Remarks</th>
-
-                                </tr>
+                            <tr>
+                                <th>SrNo </th>
+                                <th>Company</th>
+                                <th>Region</th>
+                                <th>Zone</th>
+                                <th>Territory</th>
+                                <th>Check In</th>
+                                <th>ServerTime</th>
+                                <th>UserName</th>
+                                <th>Village Name</th>
+                                <th>Farmer Name</th>
+                                <th>Crop</th>
+                                <th>Category</th>
+                                <th>Brand</th>
+                                <th>Pack Size</th>
+                                <th>Acreage</th>
+                                <th>Rep.</th>
+                                <th>Cell No</th>
+                                <th>Relation</th>
+                                <th>Images</th>
+                            </tr>
                             </thead>
 
                         <tbody>
 
                             @if (ViewBag.ListDetails != null)
-                            {
+                                {
+                                    int i = 0;
+                                    //{{DapperRow, VID = '39471', 
+                                    @*ImageForActionID = '01112018_064833-4407', 
+                                ServerTime = '11/1/2018 6:48:44 AM',
+                                VDate = '11/1/2018 6:48:33 AM',
+                                UserName = 'Abdul Ghaffar   (4865)',
+                                Company = 'AGRI      ', 
+                                Region = 'BLU-1', 
+                                Zone = 'LYA', 
+                                Territory = 'LAYYAH',
+                                DistrictName = 'LAYYAH', 
+                                VillageName = 'Sumra Nashaib',
+                                FarmerName = 'Ghulam yasin (03047415941)',
+                                VStatus = 'On Route', 
+                                LikeUnlike = 'Like', Crop = 'WHEAT', Categorydesc = 'MICRONUTRIENTS', Brand = 'Organix-77 Super', 
+                                        PackSize = '10-Kgs.', 
+                                        TotAcreage = '10', Relation = '', Rep = '', CellNo = '', Registered = '', Lat = '30.9702183333333', Long = '70.9145733333333', LastVisit = '(1) Oct 30 2018  7:43AM'}}*@
 
                                 foreach (var comp in ViewBag.ListDetails)
                                 {
-                                    
-                                    <tr>
-                                        
-                                        <td>@comp.SrlNo</td>
-                                        <td>@comp.Company</td>
-                                        <td>@comp.Region</td>
-                                        <td>@comp.Zone</td>
-                                        <td>@comp.Territory</td>
-                                        <td>@comp.UserName</td>
-                                        <td>@comp.Village</td>
-                                        <td style="@(comp.color)">@DateTime.Parse(comp.VDate.ToString()).ToString("yyyy-MM-dd")</td>
-                                        <td style="@(comp.color)" >@DateTime.Parse(comp.ServerTime.ToString()).ToString("hh:mm tt")</td>
-                                        <td style="@(comp.color)">@comp.VType</td>
-                                        <td>@comp.Remarks</td>
-                                   
-                                    </tr>
-                                    
+
+                            <tr>
+                                <td>@i</td>
+                                <td>@comp.Company</td>
+                                <td>@comp.Region</td>
+                                <td>@comp.Zone</td>
+                                <td>@comp.Territory</td>
+                                <td>@comp.VDate</td>
+                                <td>@comp.ServerTime</td>
+                                <td>@comp.UserName</td>
+                                <td>@comp.VillageName</td>
+                                <td>@comp.FarmerName</td>
+                                <td>@comp.Crop</td>
+                                <td>@comp.Categorydesc</td>
+                                <td>@comp.Brand</td>
+                                <td>@comp.PackSize</td>
+                                <td>@comp.TotAcreage</td>
+                                <td>@comp.Rep</td>
+                                <td>@comp.CellNo</td>
+                                <td>@comp.Relation</td>
+                                <td><a href="#/">Images</a></td>
+                            </tr>
+                                    i++;
                                 }
-                         
+
                             }
                         </tbody>
                     
@@ -232,7 +272,11 @@
 @section Scripts{
     <script>
 
-
+        $('.collapse').on('shown.bs.collapse', function () {
+            $(this).parent().find(".fa-chevron-circle-down").removeClass("fa-chevron-circle-down").addClass("fa-chevron-circle-up");
+        }).on('hidden.bs.collapse', function () {
+            $(this).parent().find(".fa-chevron-circle-up").removeClass("fa-chevron-circle-up").addClass("fa-chevron-circle-down");
+        });
 
         var Select2 = Vue.component('select2', {
             props: ['options', 'value'],
@@ -263,7 +307,7 @@
                     })
                 },
             },
-            template: '<select class="form-control form-control-sm"></select>'
+            template: '<select class="form-control form-control-sm" style="width:100%"></select>'
         })
 
             var element = new Vue({

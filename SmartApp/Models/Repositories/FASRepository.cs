@@ -9,16 +9,16 @@ using System.Web;
 
 namespace SmartApp.Models.Repositories
 {
-    public class AttendanceRepository : DBRepository
+    public class FASRepository : DBRepository
     {
 
-        public AttendanceRepository()
+        public FASRepository()
         {
         }
 
 
      
-        public IEnumerable<dynamic> GetDetails(string VType, string CWhere, string CWhereAb, int Uid)
+        public IEnumerable<dynamic> GetDetails(string VType, string CWhere,  int Uid)
         {
             
             //string query = $@"exec spsaFirstCheckIn"+" "+" "+" "+0;
@@ -26,7 +26,7 @@ namespace SmartApp.Models.Repositories
             {
                
 
-                string query = $"exec [dbo].[spsaFirstCheckIn] '{VType}','{CWhere.Replace("'","''")}','{CWhereAb.Replace("'", "''")}',{Uid}";
+                string query = $"exec [dbo].[spSaRptDetails] '{VType}','{CWhere.Replace("'","''")}',{Uid}";
                 return connection.Query(query).ToList();
             }
 
@@ -50,29 +50,38 @@ namespace SmartApp.Models.Repositories
 
 
 
-        public IEnumerable<dynamic> GetRegionBoxes(string VType, string CWhere, string CWhereAb, int Uid)
+        public IEnumerable<Box> GetCompanyCount(string VType, string CWhere, int Uid)
+        {
+            using (var connection = new SqlConnection(ConnectionString))
+            {
+                string query = $"exec [dbo].[spSaFASGroup] 'Company', '{VType}','{CWhere.Replace("'", "''")}',{Uid}";
+                return connection.Query<Box>(query).ToList();
+            }
+        }
+
+        public IEnumerable<dynamic> GetRegionBoxes(string VType, string CWhere,  int Uid)
         {  
             using (var connection = new SqlConnection(ConnectionString))
             {
-                string query = $"exec [dbo].[spsaFirstCheckInRegion] '{VType}','{CWhere.Replace("'", "''")}','{CWhereAb.Replace("'", "''")}',{Uid}";
+                string query = $"exec [dbo].[spSaFASGroup] 'Region', '{VType}','{CWhere.Replace("'", "''")}',{Uid}";
                 return connection.Query(query).ToList();
             }
         }
 
-        public IEnumerable<dynamic> GetZoneBoxes(string VType, string CWhere, string CWhereAb, int Uid)
+        public IEnumerable<dynamic> GetZoneBoxes(string VType, string CWhere,  int Uid)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                string query = $"exec [dbo].[spsaFirstCheckInZone] '{VType}','{CWhere.Replace("'", "''")}','{CWhereAb.Replace("'", "''")}',{Uid}";
+                string query = $"exec [dbo].[spSaFASGroup] 'Zone', '{VType}','{CWhere.Replace("'", "''")}',{Uid}";
                 return connection.Query(query).ToList();
             }
         }
 
-        public IEnumerable<dynamic> GetTerritoryBoxes(string VType, string CWhere, string CWhereAb, int Uid)
+        public IEnumerable<dynamic> GetTerritoryBoxes(string VType, string CWhere, int Uid)
         {
             using (var connection = new SqlConnection(ConnectionString))
             {
-                string query = $"exec [dbo].[spsaFirstCheckInTerritory] '{VType}','{CWhere.Replace("'", "''")}','{CWhereAb.Replace("'", "''")}',{Uid}";
+                string query = $"exec [dbo].[spSaFASGroup] 'Territory', '{VType}','{CWhere.Replace("'", "''")}',{Uid}";
                 return connection.Query(query).ToList();
             }
         }
@@ -91,11 +100,8 @@ namespace SmartApp.Models.Repositories
         }
 
 
-        public string GetWhereClause(AttendanceViewModel vm, int SessionGroupType)
+        public string GetWhereClause(FASViewModel vm, string Type, int SessionGroupType, int UserID)
         {
-            string Where = $" where 1 = 1";
-            //string Where = $"1 = 1 AND VDate BETWEEN 2018 - 10 - 02 AND 2018 - 11 - 02";
-
             if (vm.DateFrom == null)
             {
                 vm.DateFrom = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-") + "01");
@@ -104,93 +110,86 @@ namespace SmartApp.Models.Repositories
             {
                 vm.DateTo = DateTime.Now;
             }
-            if (vm.SelectedCompanies != null && vm.SelectedCompanies.Where(x => !string.IsNullOrEmpty(x.ToString())).ToList().Count > 0)
-            {
-                Where += $" AND compcode IN ({string.Join(",", vm.SelectedCompanies)})";
-            }
+
+            string Where = $"Where ( T.Compcode in ({string.Join(",", vm.SelectedCompanies)}) ) ";
             if (vm.SelectedRegions != null && vm.SelectedRegions.Where(x => !string.IsNullOrWhiteSpace(x)).ToList().Count > 0)
             {
-                Where += $" AND Regionid IN ({string.Join(",", vm.SelectedRegions)})";
+                Where += $" AND T.Regionid in ({string.Join(",", vm.SelectedRegions)})";
             }
-
-            if (vm.SelectedZones != null && vm.SelectedZones.Count > 0)
+            if (vm.SelectedZones == null || vm.SelectedZones.Count == 0)
             {
-                Where += $" AND Zoneid IN ({string.Join(",", vm.SelectedZones)})";
+                if (SessionGroupType == 1)
+                {
+                    Where += $" AND (T.Zoneid in ( SELECT distinct [Zoneid] FROM zone WHERE [Compcode] in ({string.Join(",", vm.SelectedCompanies)})) ) ";
+                }
+                else
+                {
+                    Where += $" AND (T.Zoneid in ( SELECT distinct [Zoneid] FROM Viewuserzoneregion WHERE [Compcode] in ({string.Join(",", vm.SelectedCompanies)}) AND Uid = {UserID}) ) ";
+                }
+            }
+            else
+            {
+                Where += $"  AND  ( T.zoneid in  ({string.Join(",",vm.SelectedZones)}) )";
             }
             if (vm.SelectedTerritories != null && vm.SelectedTerritories.Count > 0)
             {
-                Where += $" AND Territoryid IN ({string.Join(",", vm.SelectedTerritories)})";
+                Where += $"  AND  ( T.Territoryid in  ({string.Join(",", vm.SelectedTerritories)}) )";
             }
-            if (!string.IsNullOrWhiteSpace(vm.SearchBox))
+            if (vm.SelectedDistricts != null && vm.SelectedDistricts.Count > 0)
+            {        
+                Where += $"  AND isnull(D.VID,0) = {vm.SelectedDistricts.First()}  ";
+            }
+            if (vm.SelectedVillages != null && vm.SelectedVillages.Count > 0)
             {
-                Where += $"AND  (PartyName Like '%{vm.SearchBox}%' OR PartyCode Like '%{vm.SearchBox}%'  )";
+                Where += $"  AND V.VID = {vm.SelectedVillages.First()}";
             }
-            Where += $" AND VDate BETWEEN '{((DateTime)vm.DateFrom).ToString("yyyy-MM-dd")}' AND '{((DateTime)vm.DateTo).ToString("yyyy-MM-dd")}'";
+            if (vm.SelectedFarmers != null && vm.SelectedFarmers.Count > 0)
+            {
+                Where += $"  AND F.VID = {string.Join(",", vm.SelectedFarmers.First())}";
+            }
+            if (vm.SelectedStatus != null && vm.SelectedStatus.Count > 0)
+            {
+                Where += $"  AND H.VStatus = {vm.SelectedStatus.First()}";
+            }
+            if (vm.SelectedCrops != null && vm.SelectedCrops.Count > 0)
+            {
+                Where += $" AND CR.CropID = {vm.SelectedCrops.First()}";
+            }
+            if (vm.SelectedCategories != null && vm.SelectedCategories.Count > 0)
+            {
+                Where += $"   AND  ( P.Categoryid in  ({string.Join(",", vm.SelectedCategories)}) )";
+            }
+            if (vm.SelectedProducts != null && vm.SelectedProducts.Count > 0)
+            {
+                Where += $"   AND  ( P.Productid in   ({string.Join(",", vm.SelectedProducts)}) )";
+            }
+            if (vm.SelectedSpecs != null && vm.SelectedSpecs.Count > 0)
+            {
+                Where += $"  AND  ( P.Specid in  ({string.Join(",", vm.SelectedTerritories)}) )";
+            }
+            if (Type == "FAS")
+            {
+                Where += $" AND (H.VisitDate between '{((DateTime)vm.DateFrom).ToString("yyyy-MM-dd")}' and '{((DateTime)vm.DateTo).ToString("yyyy-MM-dd")}' )";
+            }
+            else if (Type == "Demo")
+            {
+                Where += $" AND (H.TrialDate between '{((DateTime)vm.DateFrom).ToString("yyyy-MM-dd")}' and '{((DateTime)vm.DateTo).ToString("yyyy - MM - dd")}' )";
+            }
+            else if (Type == "F/D")
+            {
+                Where += $" AND (H.FDDate between '{((DateTime)vm.DateFrom).ToString("yyyy-MM-dd")}' and '{((DateTime)vm.DateTo).ToString("yyyy-MM-dd")}' )";
+            }
+            //Where += $" AND (H.VisitDate between '{((DateTime)vm.DateFrom).ToString("yyyy-MM-dd")}' and  '{((DateTime)vm.DateTo).ToString("yyyy-MM-dd")}' )";
+            if (vm.AcreageTo != 0 && vm.AcrageFrom != 0)
+            {
+                Where += $" AND (H.TotAcreage between {vm.AcrageFrom} and {vm.AcreageTo} )";
+            }
             return Where;
         }
 
     
 
-        public string GetWhereAbClause(AttendanceViewModel vm,int SessionGroupType, int UserID)
-        {
-            string Where = $" ";
-            //string Where = " And(T.Compcode in (SELECT distinct Compcode FROM Viewuserzone where Uid = 4632)" +
-            //    " AND(T.Zoneid in (SELECT distinct[Zoneid] FROM zone WHERE[Compcode] in (SELECT distinct Compcode " +
-            //    "FROM Viewuserzone where Uid = 4632))";
-            // string Where = $"1 = 1 AND VDate BETWEEN 2018 - 10 - 02 AND 2018 - 11 - 02";
 
-            if (vm.DateFrom == null)
-            {
-                vm.DateFrom = DateTime.Parse(DateTime.Now.ToString("yyyy-MM-") + "01");
-            }
-            if (vm.DateTo == null)
-            {
-                vm.DateTo = DateTime.Now;
-            }
-            if (vm.SelectedCompanies != null && vm.SelectedCompanies.Where(x => !string.IsNullOrEmpty(x.ToString())).ToList().Count > 0)
-            {
-                Where += $" AND T.compcode IN ({string.Join(",", vm.SelectedCompanies)})";
-            }
-            if (vm.SelectedRegions != null && vm.SelectedRegions.Where(x => !string.IsNullOrWhiteSpace(x)).ToList().Count > 0)
-            {
-                Where += $" AND T.Regionid IN ({string.Join(",", vm.SelectedRegions)})";
-            }
-            if (vm.SelectedZones != null && vm.SelectedZones.Count > 0)
-            {
-                Where += $" AND T.Zoneid IN ({string.Join(",", vm.SelectedZones)})";
-                //Where += $" AND(T.Zoneid in (SELECT distinct[Zoneid] FROM zone WHERE[Compcode] in ({string.Join(",", vm.SelectedZones)})";
-                //Where += $" AND Zoneid IN ({string.Join(",", vm.SelectedZones)})";
-            }
-            else
-            {
-                //If Session("GroupType") = 1 Then
-                if (SessionGroupType == 1)
-                    {
-                    // SqlStringFirstab.AppendLine(" AND (T.Zoneid in ( SELECT distinct [Zoneid] FROM zone WHERE [Compcode] in (" & Session("compList") & ")) ) ")
-                    Where += $"AND (T.Zoneid in ( SELECT distinct [Zoneid] FROM zone WHERE [Compcode] in({string.Join(",", vm.SelectedCompanies)})))";
-                }
-                else
-                {
-                    //SqlStringFirstab.AppendLine(" AND (T.Zoneid in ( SELECT distinct [Zoneid] FROM Viewuserzoneregion WHERE [Compcode] in (" & Session("compList") & ") AND Uid = " & objCommon.Setint(Session("UserID")) & ") ) ")
-                    Where += $"AND (T.Zoneid in ( SELECT distinct [Zoneid] FROM Viewuserzoneregion WHERE [Compcode] in ({string.Join(",", vm.SelectedCompanies)})AND Uid ={UserID}))";
-
-
-                }
-
-            }
-
-            if (vm.SelectedTerritories != null && vm.SelectedTerritories.Count > 0)
-            {
-                Where += $" AND T.Territoryid in ({string.Join(",", vm.SelectedTerritories)})";
-                // Where += $" AND Territoryid IN ({string.Join(",", vm.SelectedTerritories)})";
-            }
-            if (!string.IsNullOrWhiteSpace(vm.SearchBox))
-            {
-                Where += $"AND  ( PartyName Like '%{vm.SearchBox}%' OR PartyCode Like '%{vm.SearchBox}%'  )";
-            }
-            //Where += $" AND VDate BETWEEN '{((DateTime)vm.DateFrom).ToString("yyyy-MM-dd")}' AND '{((DateTime)vm.DateTo).ToString("yyyy-MM-dd")}'";
-            return Where;
-        }
 
 
         public List<Region> GetRegions(int SessionGroupType, List<string> Companies, int UserID)

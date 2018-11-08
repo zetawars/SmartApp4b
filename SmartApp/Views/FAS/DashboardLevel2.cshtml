@@ -46,10 +46,10 @@
     {<div class="col-md-3 col-sm-6 col-xs-12">
                     <div class="info-box " style="background-color:@ColorList[i]">
                         <div class="info-box-content">
-                            <a href="#">
-                                <span style="color:black!important" data-id="@element.VID" class="info-box-text r1">@element.VName</span>
+                            <a href="#/">
+                                <span style="color:black!important" data-type="@Request.QueryString["Type"]" data-id="@element.VID" class="info-box-text r1">@element.VName</span>
                                 <span style="color:black!important" class="info-box-number"> @element.PP/@element.Total</span>
-                                <span class="info-box-number" style="color:black!important;">@element.Per%</span>
+                                <span style="color:black!important" class="info-box-number"> @element.Per%</span>
 
                                 @*<img src="~/Images/blue1.png" width="80" height="80" />*@
                             </a>
@@ -58,7 +58,7 @@
 
                         <div class="info-box-content">
                             <span style="float:right!important;margin-top:45px">
-                                <a href="@Url.Action("Attendance", "Home", new { Region=element.VID })">
+                                <a href="@Url.Action("Details", "FAS", new { Type=Request.QueryString["Type"], Region=element.VID })">
                                     <h7 style="font-size:15px;text-align:right;color:black!important"> Details</h7>
                                 </a>
                             </span>
@@ -100,15 +100,9 @@
     <script>
         $(document).on('click', '.r1', function () {
             var Region = $(this).data("id");
-            
-            window.location = '@Url.Action("DashboardLevel3", "Home")' + "?Region=" + Region;
-            //$("#name").html(Region);
-            //alert(Region);
-            //var test = $("#name").val();
-            //alert(test);
+            var Type = $(this).data("type");
+            window.location = '@Url.Action("DashboardLevel3", "FAS")' + "?" + "Region=" + Region + "&Type=" + Type;
         });
-
-
     </script>
     }
 

@@ -1,8 +1,36 @@
-﻿
-@{
-    ViewBag.Title = "ProductsDetails";
+﻿@{
+    ViewBag.Title = "UploadImages";
     Layout = "~/Views/Shared/_Layout.cshtml";
+
 }
 
-<h2>ProductsDetails</h2>
+
+<div class="content-wrapper" style="background-color:white!important">
+    
+
+    <div class="container container-fluid">
+
+        <div class="row">
+            @foreach (var image in Model.Images)
+            {
+
+                <div class="flex-lg-column" style="width:20%!important;text-align:center!important;">
+
+                    <a href="#">
+                        <img src="@Url.Content(image)" width="120" height="120" title="" />
+                        <p style="">
+                            @Path.Combine(Path.GetDirectoryName(image), Path.GetFileNameWithoutExtension(image)).Substring(14)
+
+                        </p>
+                    </a>
+
+                </div>
+
+            }
+        </div>
+
+    </div>
+
+</div>
+
 

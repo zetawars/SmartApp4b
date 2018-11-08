@@ -145,7 +145,7 @@ D:\Code\SmartApp\SmartApp\bin\Newtonsoft.Json.xml
 D:\Code\SmartApp\SmartApp\bin\System.Web.Optimization.xml
 D:\Code\SmartApp\SmartApp\bin\System.Web.Optimization.Less.pdb
 D:\Code\SmartApp\SmartApp\bin\System.Web.Optimization.Less.xml
-D:\Code\SmartApp\SmartApp\obj\Debug\SmartApp.csprojResolveAssemblyReference.cache
 D:\Code\SmartApp\SmartApp\obj\Debug\SmartApp.csproj.CoreCompileInputs.cache
 D:\Code\SmartApp\SmartApp\obj\Debug\SmartApp.dll
 D:\Code\SmartApp\SmartApp\obj\Debug\SmartApp.pdb
+D:\Code\SmartApp\SmartApp\obj\Debug\SmartApp.csprojResolveAssemblyReference.cache
